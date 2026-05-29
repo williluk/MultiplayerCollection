@@ -1,0 +1,8 @@
+{
+  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.description": "Allies with less than 10% HP deal 25% additional damage.",
+  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.flavor": "",
+  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.title": "Red Tearstone",
+  "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.description": "Upon pickup, add all allies' Strikes to your deck.",
+  "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.flavor": "",
+  "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.title": "Martial Amulet"
+}
