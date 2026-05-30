@@ -2,7 +2,7 @@
   "id": "MultiplayerCollection",
   "name": "MultiplayerCollection",
   "author": "MakeItTrain",
-  "description": "A collection of 35 character-specific cards to improve the multiplayer play experience.",
+  "description": "A collection of 35 character-specific cards and 5 relics to improve the multiplayer play experience.",
   "version": "v0.0.0",
   "has_pck": true,
   "has_dll": true,

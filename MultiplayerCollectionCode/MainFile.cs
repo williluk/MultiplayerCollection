@@ -1,6 +1,9 @@
+using BaseLib.Utils;
 using Godot;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Modding;
+using MegaCrit.Sts2.Core.Models;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode;
 
@@ -20,7 +23,10 @@ public partial class MainFile : Node
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
 
         Harmony harmony = new(ModId);
+        Harmony.DEBUG = true;
 
+        
         harmony.PatchAll();
+   
     }
 }

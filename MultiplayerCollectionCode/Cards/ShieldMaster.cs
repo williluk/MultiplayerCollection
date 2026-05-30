@@ -18,6 +18,9 @@ public class ShieldMaster() : CustomCardModel(1,
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
+    // Add a dyanmic target spire field
+    // make injection return dynamic target 
+    
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)

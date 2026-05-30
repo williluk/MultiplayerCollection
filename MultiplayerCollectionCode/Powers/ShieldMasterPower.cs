@@ -59,65 +59,16 @@ public class ShieldMasterPower : CustomPowerModel
         
     public override PowerType Type => PowerType.Debuff; 
     public override PowerStackType StackType => PowerStackType.Counter;
-        
-    // CODE GOES HERE
-    private bool ShouldCancelTargeting()
+
+    public override Task AfterCardDrawnEarly(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        if (NOverlayStack.Instance.ScreenCount <= 0)
+        GD.Print("----> AfterCardDrawnEarly Hook");
+        if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {
-            return NCapstoneContainer.Instance.InUse;
+            GD.Print("----> Overridable card found");
+            GD.Print(DynamicsTargetType._dynmaicTargetType.Get(card).ToString());
+            DynamicsTargetType._dynmaicTargetType.Set(card, TargetType.AnyAlly);
         }
-        return true;
-    }
-    
-    public override async Task BeforeCardPlayed(CardPlay cardPlay)
-    {
-        if (cardPlay.Card.GainsBlock && cardPlay.Card.TargetType == TargetType.Self)
-        {
-            bool usingController = NControllerManager.Instance.IsUsingController;
-            NTargetManager targetManager = NTargetManager.Instance;
-            targetManager.StartTargeting(TargetType.AnyPlayer, new Vector2(0, 0), usingController ? TargetMode.Controller : TargetMode.ClickMouseToTarget, ShouldCancelTargeting, AllowHoveringNode);
-            var target = NodeToPlayer(await targetManager.SelectionFinished());
-            GD.Print(target != null);
-            if (target != null)
-            {
-                cardPlay = new CardPlay
-                {
-                    Card = cardPlay.Card,
-                    Target = target.Creature,
-                    ResultPile = cardPlay.ResultPile,
-                    Resources = cardPlay.Resources,
-                    IsAutoPlay = cardPlay.IsAutoPlay,
-                    PlayIndex = cardPlay.PlayIndex,
-                    PlayCount = cardPlay.PlayCount,
-                };
-                CardCmd.AutoPlay(new GameActionPlayerChoiceContext(new PlayCardAction(cardPlay.Card, cardPlay.Target)),
-                    cardPlay.Card, target.Creature);
-            }
-        }
-    }
-    
-    
-    private Player? NodeToPlayer(Node? node)
-    {
-        GD.Print(node.Name);
-        if (node == null)
-        {
-            return null;
-        }
-        if (!(node is NMultiplayerPlayerState nMultiplayerPlayerState))
-        {
-            if (node is NRestSiteCharacter nRestSiteCharacter)
-            {
-                return nRestSiteCharacter.Player;
-            }
-            return null;
-        }
-        return nMultiplayerPlayerState.Player;
-    }
-    
-    private bool AllowHoveringNode(Node node)
-    {
-        return true;
+        return Task.CompletedTask;
     }
 }
