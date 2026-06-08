@@ -10,38 +10,48 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.GameInfo.Objects;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(IroncladCardPool))]
 public class RicochetBlade() : CustomCardModel(1,
     CardType.Attack, CardRarity.Common,
-    TargetType.AnyEnemy)
+    TargetType.AnyAlly)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [];
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(12m, ValueProp.Move)];
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target, "play.Target");
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).TargetingRandomOpponents(base.CombatState)
+            .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         
-        List<Creature> items = base.Owner.Creature.CombatState.Allies.Where((Creature c) => c != null && c.IsAlive && c.IsPlayer && c != base.Owner.Creature).ToList();
-        //List<RicochetBlade> list = Create(items.TakeRandom<Creature>(), 1, base.CombatState).ToList();
-        //CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true));
+        List<RicochetBlade> list = Create(play.Target.Player, base.CombatState).ToList();
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true));
     }
 
-    public static IEnumerable<RicochetBlade> Create(Player owner, int amount, CombatState combatState)
+    public static IEnumerable<RicochetBlade> Create(Player owner, CombatState combatState)
     {
         List<RicochetBlade> list = new List<RicochetBlade>();
-        for (int i = 0; i < amount; i++)
-        {
-            list.Add(combatState.CreateCard<RicochetBlade>(owner));
-        }
+
+        var card = combatState.CreateCard<RicochetBlade>(owner);
+        card.AddKeyword(CardKeyword.Ethereal);
+        card.AddKeyword(CardKeyword.Exhaust);
+        list.Add(card);
+        
         return list;
+    }
+
+    protected override void OnUpgrade()
+    {
+        base.DynamicVars.Damage.UpgradeValueBy(4);
     }
 }

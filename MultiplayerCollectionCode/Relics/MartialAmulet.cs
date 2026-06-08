@@ -1,6 +1,7 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using BaseLib.Utils;
+using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -26,29 +27,46 @@ public class MartialAmulet() : CustomRelicModel
 
     public override async Task AfterObtained()
     {
-        List<CardPileAddResult> results = new List<CardPileAddResult>();
+        List<CardModel> results = new List<CardModel>();
         foreach (Player p in base.Owner.RunState.Players)
         {
+            GD.Print("----> Iterating on players");
             if (p != base.Owner)
             {
-                IEnumerable<CardModel> enumerable = PileType.Deck.GetPile(p).Cards.ToList();
+                IEnumerable<CardModel> enumerable = PileType.Deck.GetPile(p).Cards.Where(Filter).ToList();
                 List<CardModel> cardsToRemove = [];
                 
                 foreach (CardModel item in enumerable)
                 {
-                    if (item.Rarity == CardRarity.Basic && item.Tags.Contains(CardTag.Strike))
-                    {
-                        cardsToRemove.Add(item);
+                    //GD.Print("----> Iterating on strikes");
 
-                        CardModel card = base.Owner.RunState.CreateCard(item, base.Owner);
-                        List<CardPileAddResult> list = results;
-                        list.Add(await CardPileCmd.Add(card, PileType.Deck));
-                    }
+                    cardsToRemove.Add(item);
+                    //CardCreationOptions options = new CardCreationOptions(new <>z__ReadOnlySingleElementList<CardPoolModel>(base.Owner.Character.CardPool), CardCreationSource.Other, CardRarityOddsType.Uniform, (CardModel c) => c.Rarity == CardRarity.Rare).WithFlags(CardCreationFlags.NoUpgradeRoll);
+                    results.Add(base.Owner.RunState.CreateCard(item.CanonicalInstance, base.Owner));
                 }
-                await CardPileCmd.RemoveFromDeck(cardsToRemove);
+                //GD.Print("----> executing removal");
                 
+                await CardPileCmd.RemoveFromDeck(cardsToRemove);
             }
         }
-        CardCmd.PreviewCardPileAdd(results, 2f);
+        //GD.Print("----> executing add");
+        if (results.Count > 0)
+        {
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.Add(results, PileType.Deck));
+        }
+    }
+    
+    private bool Filter(CardModel card)
+    {
+        bool flag = card.IsBasicStrikeOrDefend && card.Tags.Contains(CardTag.Strike);
+        bool flag2 = flag;
+        // not sure what this stuff is for. Copied from All For One
+        if (flag2)
+        {
+            CardType type = card.Type;
+            bool flag3 = (uint)(type - 1) <= 2u;
+            flag2 = flag3;
+        }
+        return flag2;
     }
 }

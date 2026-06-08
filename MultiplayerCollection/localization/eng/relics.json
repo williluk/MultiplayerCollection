@@ -4,5 +4,11 @@
   "MULTIPLAYERCOLLECTION-RED_TEARSTONE.title": "Red Tearstone",
   "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.description": "Upon pickup, add all allies' Strikes to your deck.",
   "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.flavor": "",
-  "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.title": "Martial Amulet"
+  "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.title": "Martial Amulet",
+  "MULTIPLAYERCOLLECTION-POISONERS_KIT.description": "Allies can enchant their attacks with Poison at rest sites.",
+  "MULTIPLAYERCOLLECTION-POISONERS_KIT.flavor": "",
+  "MULTIPLAYERCOLLECTION-POISONERS_KIT.title": "Poisoner's Kit",
+  "OPTION_POISON.description": "Enchant an attack with \"Apply 3 Poison\"",
+  "OPTION_POISON.descriptionDisabled": "Enchant an attack with \"Apply 3 Poison\"",
+  "OPTION_POISON.title": "Poisoner's Kit"
 }

@@ -13,7 +13,15 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 public class LastStand() : CustomCardModel(1, CardType.Skill,
     CardRarity.Rare, TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
+    
+    
+    
+    /*public override IEnumerable<CardKeyword> CanonicalKeywords => new CardKeyword[1]
+    {
+        CardKeyword.Exhaust
+    };
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
@@ -21,5 +29,5 @@ public class LastStand() : CustomCardModel(1, CardType.Skill,
     {
         int val = (base.IsUpgraded == true) ? 2 : 1;
         await PowerCmd.Apply<LastStandPower>(base.Owner.Creature, val, base.Owner.Creature, this);
-    }
+    }*/
 }

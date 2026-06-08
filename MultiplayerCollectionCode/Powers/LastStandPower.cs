@@ -38,7 +38,7 @@ public class LastStandPower : CustomPowerModel
         }
     }
         
-    public override PowerType Type => PowerType.Debuff; 
+    public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.None;
         
     // CODE GOES HERE

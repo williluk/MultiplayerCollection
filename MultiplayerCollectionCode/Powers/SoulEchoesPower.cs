@@ -18,7 +18,8 @@ using MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
-public abstract class SoulEchoesPower : CustomPowerModel
+
+public class SoulEchoesPower : CustomPowerModel
 {
     //Loads from MutiplayerCollection/images/powers/your_power.png
     public override string CustomPackedIconPath
@@ -42,6 +43,8 @@ public abstract class SoulEchoesPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    private bool triggeredThisTurn = false;
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
     {
@@ -50,11 +53,10 @@ public abstract class SoulEchoesPower : CustomPowerModel
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner.Creature == base.Owner && cardPlay.Card is Soul)
+        if (cardPlay.Card.Owner.Creature == base.Owner && cardPlay.Card is Soul && !triggeredThisTurn)
         {
-            
             IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner)
-                where c != null && c.IsAlive && c.IsPlayer
+                where c != null && c.IsAlive && c.IsPlayer && c != base.Owner
                 select c;
             foreach (Creature item in enumerable)
             {
@@ -62,6 +64,17 @@ public abstract class SoulEchoesPower : CustomPowerModel
                 
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true));
             }
+
+            triggeredThisTurn = true;
         }
+    }
+
+    public override Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (player == base.Owner.Player)
+        {
+            triggeredThisTurn = false;
+        }
+        return Task.CompletedTask;
     }
 }

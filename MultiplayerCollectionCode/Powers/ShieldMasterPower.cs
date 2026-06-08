@@ -6,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BaseLib.Utils;
 using Godot;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.GameActions;
@@ -31,6 +33,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Overlays;
 using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.TestSupport;
+using MegaCrit.Sts2.Core.ValueProps;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
@@ -57,18 +60,43 @@ public class ShieldMasterPower : CustomPowerModel
         }
     }
         
-    public override PowerType Type => PowerType.Debuff; 
+    public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
+    
+    protected override IEnumerable<DynamicVar> CanonicalVars => [ new BlockVar(0, ValueProp.Move)];
+
+    public override Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
+    {
+        if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
+        {
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyPlayer);
+        }
+        return Task.CompletedTask;
+    }
 
     public override Task AfterCardDrawnEarly(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        GD.Print("----> AfterCardDrawnEarly Hook");
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {
-            GD.Print("----> Overridable card found");
-            GD.Print(DynamicsTargetType._dynmaicTargetType.Get(card).ToString());
-            DynamicsTargetType._dynmaicTargetType.Set(card, TargetType.AnyAlly);
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyPlayer);
         }
         return Task.CompletedTask;
+    }
+
+    public override decimal ModifyBlockMultiplicative(Creature target, decimal block, ValueProp props, CardModel? cardSource,
+        CardPlay? cardPlay)
+    {
+        if (cardSource == null || cardPlay == null || cardPlay.Target == null)
+        {
+            return 1m;
+        }
+        if (target == base.Owner && cardPlay.Target != base.Owner)
+        {
+            base.DynamicVars.Block.BaseValue = block * 1.25m;
+            CreatureCmd.GainBlock(cardPlay.Target, base.DynamicVars.Block, cardPlay);
+            base.DynamicVars.Block.BaseValue = 0; 
+            return 0m;
+        }
+        return 1m;
     }
 }

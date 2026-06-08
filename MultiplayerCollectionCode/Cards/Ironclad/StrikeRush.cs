@@ -1,8 +1,10 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils;
+using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -30,14 +32,13 @@ public class StrikeRush() : CustomCardModel(1, CardType.Attack,
             .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
 
-        IEnumerable<Creature> items = [];
+        List<Creature> items = [];
         if (base.Owner.Creature.CombatState != null)
-            items = base.Owner.Creature.CombatState.Allies.Where((Creature c) => c.IsAlive && c.IsPlayer && c != base.Owner.Creature);
+            items = base.Owner.Creature.CombatState.Allies.Where((Creature c) => c.IsAlive && c.IsPlayer && c != base.Owner.Creature).ToList();
         
-        int offset = base.Owner.RunState.Rng.CombatEnergyCosts.NextInt(items.Count());
-        for (int i = 0; i < offset; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            IEnumerable<CardModel> drawp = PileType.Draw.GetPile(items.ElementAt(i + offset % items.Count()).Player).Cards.Where(Filter).ToList();
+            IEnumerable<CardModel> drawp = PileType.Draw.GetPile(items.TakeRandom(1, RunState.Rng.Niche).First().Player).Cards.Where(Filter).ToList();
             foreach (CardModel c in drawp)
             {
                 if (base.IsUpgraded)

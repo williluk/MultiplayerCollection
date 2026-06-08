@@ -4,21 +4,22 @@ using MultiplayerCollection.MultiplayerCollectionCode.Extensions;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Runs;
 using Godot;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
-public class UndeadArmyPower : CustomPowerModel
+public class SmokeBombPower : CustomPowerModel
 {
-    //Loads from MutiplayerCollection/images/powers/your_power.png
+//Loads from MutiplayerCollection/images/powers/your_power.png
     public override string CustomPackedIconPath
     {
         get
@@ -36,32 +37,38 @@ public class UndeadArmyPower : CustomPowerModel
             return ResourceLoader.Exists(path) ? path : "power.png".BigPowerImagePath();
         }
     }
-    
-    
+
     public override PowerType Type => PowerType.Buff;
-    
     public override PowerStackType StackType => PowerStackType.Counter;
     
-      protected override IEnumerable<DynamicVar> CanonicalVars => [ new SummonVar(1) ];
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new DynamicVar("DamageDecrease", 0.50m)};
     
-    //protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
-    //{
-       // HoverTipFactory.Static(StaticHoverTip.SummonDynamic, base.DynamicVars.Summon)
-    //};
-
-    public override async Task AfterSummon(PlayerChoiceContext choiceContext, Player summoner, decimal amount)
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (summoner != base.Owner.Player)
+        if (target != base.Owner)
         {
-            return;
+            return 1m;
         }
-        IEnumerable<Player> enumerable = base.CombatState.Players.Where((Player p) => p.Creature.IsAlive && p != summoner && !p.Creature.HasPower<UndeadArmyPower>());
-        foreach (Player item in enumerable)
+        if (!props.IsPoweredAttack())
         {
-            await OstyCmd.Summon(choiceContext, item, 1, this);
-            //await ForgeCmd.Forge(amount, item, this);
-        }  
+            return 1m;
+        }
+        if (dealer == null)
+        {
+            return 1m;
+        }
+        if (!dealer.HasPower<WeakPower>())
+        {
+            return 1m;
+        }
+        return base.DynamicVars["DamageDecrease"].BaseValue;
     }
 
-
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    {
+        if (side == CombatSide.Enemy)
+        {
+            await PowerCmd.TickDownDuration(this);
+        }
+    }
 }

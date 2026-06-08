@@ -17,6 +17,7 @@ public class SacrificialPact() : CustomCardModel(1,
     CardType.Skill, CardRarity.Uncommon,
     TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => [ new CardsVar(1) ];
     protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
     {
@@ -27,6 +28,7 @@ public class SacrificialPact() : CustomCardModel(1,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        
         CardModel cardModel = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1), context: choiceContext, player: base.Owner, filter: null, source: this)).FirstOrDefault();
         if (cardModel != null)
         {

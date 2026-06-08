@@ -13,6 +13,7 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 public class Invigorate() : CustomCardModel(2, CardType.Skill,
     CardRarity.Uncommon, TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => [ new HealVar(5m), new DynamicVar("HpThreshold", 50m), ];
     
 
@@ -37,6 +38,6 @@ public class Invigorate() : CustomCardModel(2, CardType.Skill,
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars["HealVar"].UpgradeValueBy(2m);
+        base.DynamicVars.Heal.UpgradeValueBy(2m);
     }
 }

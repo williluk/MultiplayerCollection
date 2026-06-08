@@ -2,35 +2,34 @@
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
+
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(NecrobinderCardPool))]
-public class UndeadArmy() : CustomCardModel(2, CardType.Power,
-    CardRarity.Rare, TargetType.Self)
+public class BestowCurse() : CustomCardModel(1,
+    CardType.Skill, CardRarity.Common,
+    TargetType.AnyEnemy)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
-    {
-        HoverTipFactory.Static(StaticHoverTip.SummonDynamic, base.DynamicVars.Summon)
-    };
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<BestowCursePower>(2m)};
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        ArgumentNullException.ThrowIfNull(play.Target, "play.Target"); 
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<UndeadArmyPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<BestowCursePower>(play.Target, base.DynamicVars["BestowCursePower"].BaseValue, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        base.EnergyCost.UpgradeBy(-1);
+        base.DynamicVars["BestowCursePower"].UpgradeValueBy(1m);
     }
 }
