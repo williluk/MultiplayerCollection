@@ -1,5 +1,5 @@
 {
-  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.description": "Allies with less than 10% HP deal 25% additional damage.",
+  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.description": "Allies with less than 25% HP deal 25% additional damage.",
   "MULTIPLAYERCOLLECTION-RED_TEARSTONE.flavor": "",
   "MULTIPLAYERCOLLECTION-RED_TEARSTONE.title": "Red Tearstone",
   "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.description": "Upon pickup, add all allies' Strikes to your deck.",
@@ -10,5 +10,8 @@
   "MULTIPLAYERCOLLECTION-POISONERS_KIT.title": "Poisoner's Kit",
   "OPTION_POISON.description": "Enchant an attack with \"Apply 3 Poison\"",
   "OPTION_POISON.descriptionDisabled": "Enchant an attack with \"Apply 3 Poison\"",
-  "OPTION_POISON.title": "Poisoner's Kit"
+  "OPTION_POISON.title": "Poisoner's Kit",
+  "MULTIPLAYERCOLLECTION-COMMAND_SEAT.description": "Allies gain 2 Strength each combat until you take damage.",
+  "MULTIPLAYERCOLLECTION-COMMAND_SEAT.flavor": "Allies gain 2 Strength each combat until you take damage.",
+  "MULTIPLAYERCOLLECTION-COMMAND_SEAT.title": "Command Seat"
 }

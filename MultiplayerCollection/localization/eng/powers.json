@@ -37,5 +37,14 @@
   "MULTIPLAYERCOLLECTION-FLURRY_OF_BLADES_POWER.title": "Flurry Of Blades",
   "MULTIPLAYERCOLLECTION-SMOKE_BOMB_POWER.description": "Take 25% less damage from Weakened enemies.",
   "MULTIPLAYERCOLLECTION-SMOKE_BOMB_POWER.smartDescription": "Take 25% less damage from Weakened enemies.",
-  "MULTIPLAYERCOLLECTION-SMOKE_BOMB_POWER.title": "Smoke Bomb"
+  "MULTIPLAYERCOLLECTION-SMOKE_BOMB_POWER.title": "Smoke Bomb",
+  "MULTIPLAYERCOLLECTION-ROYAL_ARMS_POWER.description": "Cards that you add to other player's hand are enchanted with Royal Arms.",
+  "MULTIPLAYERCOLLECTION-ROYAL_ARMS_POWER.smartDescription": "Cards that you add to other player's hand are enchanted with Royal Arms.",
+  "MULTIPLAYERCOLLECTION-ROYAL_ARMS_POWER.title": "Royal Arms",
+  "MULTIPLAYERCOLLECTION-ECONOMICS_POWER.description": "Whenever you gain 5(4) stars, all allies gain 1 energy.",
+  "MULTIPLAYERCOLLECTION-ECONOMICS_POWER.smartDescription": "Whenever you gain 5(4) stars, all allies gain 1 energy.",
+  "MULTIPLAYERCOLLECTION-ECONOMICS_POWER.title": "Economics",
+  "MULTIPLAYERCOLLECTION-POWER_UP_POWER.description": "The first power you play each turn is also played on all allies.",
+  "MULTIPLAYERCOLLECTION-POWER_UP_POWER.smartDescription": "The first power you play each turn is also played on all allies.",
+  "MULTIPLAYERCOLLECTION-POWER_UP_POWER.title": "Power Up"
 }
