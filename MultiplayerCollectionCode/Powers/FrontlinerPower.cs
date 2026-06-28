@@ -47,7 +47,7 @@ public class FrontlinerPower : CustomPowerModel
     {
         if (cardPlay.Target == base.Owner && cardPlay.Card.TargetType != TargetType.Self)
         {
-            PowerCmd.Apply<StrengthPower>(base.Owner, 1, base.Owner, null);
+            PowerCmd.Apply<StrengthPower>(context, base.Owner, 1, base.Owner, null);
         }
         return Task.CompletedTask;
     }

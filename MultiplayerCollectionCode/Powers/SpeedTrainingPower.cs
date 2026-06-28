@@ -52,8 +52,6 @@ public class SpeedTrainingPower : CustomPowerModel
 
     public override int DisplayAmount => base.Amount - GetInternalData<Data>().cardsDrawn % base.Amount;
     
-    public override bool IsInstanced => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] { new CardsVar(4) };
 
     protected override object InitInternalData()
@@ -83,7 +81,7 @@ public class SpeedTrainingPower : CustomPowerModel
         }
     }
 
-    public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         GetInternalData<Data>().cardsDrawn = GetInternalData<Data>().cardsDrawn % base.Amount;
         return Task.CompletedTask;

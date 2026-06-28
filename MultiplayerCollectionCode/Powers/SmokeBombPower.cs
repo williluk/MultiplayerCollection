@@ -64,11 +64,12 @@ public class SmokeBombPower : CustomPowerModel
         return base.DynamicVars["DamageDecrease"].BaseValue;
     }
 
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         if (side == CombatSide.Enemy)
         {
-            await PowerCmd.TickDownDuration(this);
+            PowerCmd.TickDownDuration(this);
         }
+        return Task.CompletedTask;
     }
 }

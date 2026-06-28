@@ -49,7 +49,7 @@ public class RaiseDead() : CustomCardModel(2, CardType.Skill,
         {
             //MainFile.Logger.Info("----> Target is not dead");
             await CreatureCmd.Heal(play.Target, base.DynamicVars.Heal.BaseValue);
-            await PowerCmd.Apply<DoomPower>(base.Owner.Creature, base.DynamicVars.Power<DoomPower>().BaseValue, base.Owner.Creature, play.Card);
+            await PowerCmd.Apply<DoomPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, base.DynamicVars.Power<DoomPower>().BaseValue, base.Owner.Creature, play.Card);
         }
         else
         {
@@ -62,7 +62,7 @@ public class RaiseDead() : CustomCardModel(2, CardType.Skill,
                 if (instance != null)
                     instance.CombatVfxContainer.AddChildSafely((Node) NSpikeSplashVfx.Create(target));
             }*/
-            await PowerCmd.Apply<DoomPower>(enemies, base.DynamicVars.Power<DoomPower>().BaseValue, base.Owner.Creature, play.Card);
+            await PowerCmd.Apply<DoomPower>(new ThrowingPlayerChoiceContext(), enemies, base.DynamicVars.Power<DoomPower>().BaseValue, base.Owner.Creature, play.Card);
         }
         
     }

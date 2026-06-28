@@ -20,7 +20,7 @@ public class SecondThat() : CustomCardModel(1, CardType.Skill,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<SecondThatPower>(base.Owner.Creature, base.DynamicVars["SecondThatPower"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<SecondThatPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, base.DynamicVars["SecondThatPower"].BaseValue, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

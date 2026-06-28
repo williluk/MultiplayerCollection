@@ -24,7 +24,7 @@ public class RoyalSupport() : CustomCardModel(0,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
-        await PowerCmd.Apply<VigorPower>(enumerable, (decimal)ResolveStarXValue() + base.DynamicVars["xBonus"].BaseValue, base.Owner.Creature, null);
+        await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(), enumerable, (decimal)ResolveStarXValue() + base.DynamicVars["xBonus"].BaseValue, base.Owner.Creature, null);
     }
 
     protected override void OnUpgrade()

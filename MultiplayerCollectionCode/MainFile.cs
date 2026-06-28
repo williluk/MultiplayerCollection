@@ -30,8 +30,8 @@ public partial class MainFile : Node
         
         DeferredLogPatches(harmony);
         
-        CustomLocTableManager.RegisterCustomLocTable(LocManager.Instance, "enchantments.json");
-        CustomLocTableManager.RegisterCustomLocTable(LocManager.Instance, "rest_site_options.json");
+        /*CustomLocTableManager.RegisterCustomLocTable(LocManager.Instance, "enchantments.json");
+        CustomLocTableManager.RegisterCustomLocTable(LocManager.Instance, "rest_site_options.json");*/
 
     }
     

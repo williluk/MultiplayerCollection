@@ -57,7 +57,7 @@ public class LastStandPower : CustomPowerModel
         {
             CreatureCmd.Heal(creature, 1m, true);
             if (base.Amount > 1)
-                PowerCmd.Apply<StrengthPower>(base.Owner, 5, base.Owner, null);
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), base.Owner, 5, base.Owner, null);
         }
         return Task.CompletedTask;
     }

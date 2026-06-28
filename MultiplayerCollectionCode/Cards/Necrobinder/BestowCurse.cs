@@ -25,7 +25,7 @@ public class BestowCurse() : CustomCardModel(1,
     {
         ArgumentNullException.ThrowIfNull(play.Target, "play.Target"); 
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<BestowCursePower>(play.Target, base.DynamicVars["BestowCursePower"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<BestowCursePower>(new ThrowingPlayerChoiceContext(), play.Target, base.DynamicVars["BestowCursePower"].BaseValue, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

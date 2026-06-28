@@ -51,13 +51,14 @@ public class BestowCursePower : CustomPowerModel
     {
         if (target == base.Owner && cardSource != null)
         {
-            await PowerCmd.Apply<DoomPower>(base.Owner, base.Amount, dealer, null);
+            await PowerCmd.Apply<DoomPower>(choiceContext, base.Owner, base.Amount, dealer, null);
         }
     }
-    
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
-        await PowerCmd.Remove(this);
+        PowerCmd.Remove(this);
+        return Task.CompletedTask;
     }
 
 }

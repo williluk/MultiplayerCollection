@@ -20,7 +20,7 @@ public class Frontliner() : CustomCardModel(3, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<FrontlinerPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<FrontlinerPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

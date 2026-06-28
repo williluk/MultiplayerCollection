@@ -54,8 +54,6 @@ public class EconomicsPower : CustomPowerModel
 
     public override int DisplayAmount => base.Amount - GetInternalData<Data>().starsGained % base.Amount;
     
-    public override bool IsInstanced => true;
-    
     protected override object InitInternalData()
     {
         return new Data();

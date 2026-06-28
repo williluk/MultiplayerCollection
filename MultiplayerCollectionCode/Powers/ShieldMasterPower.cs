@@ -64,8 +64,8 @@ public class ShieldMasterPower : CustomPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
     
     protected override IEnumerable<DynamicVar> CanonicalVars => [ new BlockVar(0, ValueProp.Move)];
-
-    public override Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
+    
+    public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {

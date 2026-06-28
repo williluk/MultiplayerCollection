@@ -51,12 +51,9 @@ public class GraciousGifts() : CustomCardModel(1,
                 // Per ally code here
                 CardModel newCard = CardFactory.GetDistinctForCombat(item.Player, [cardModel.CanonicalInstance], 1, base.Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
                 newCard.AddKeyword(CardKeyword.Ethereal);
-                await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, addedByPlayer: true);
+                await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, creator: base.Owner);
 
             }
-            // Apply to self separately 
-            cardModel.AddKeyword(CardKeyword.Ethereal);
-            await CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, addedByPlayer: true);
         }
     }
     

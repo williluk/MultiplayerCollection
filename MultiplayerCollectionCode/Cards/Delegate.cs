@@ -9,8 +9,10 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Random;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
+
 
 [Pool(typeof(RegentCardPool))]
 public class Delegate() : CustomCardModel(0, CardType.Skill,
@@ -31,14 +33,16 @@ public class Delegate() : CustomCardModel(0, CardType.Skill,
         IEnumerable<CardModel> cardToMove = await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1), context: choiceContext, player: base.Owner, filter: null, source: this);
         if (cardToMove != null)
         {
-            CardModel newCard = CardFactory.GetDistinctForCombat(play.Target.Player, cardToMove, 1, base.Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
+            CardModel newCard = base.CombatState.CreateCard(cardToMove.FirstOrDefault().CanonicalInstance, play.Target.Player);
+            
             if (newCard != null)
-            {
+            {   
+                MainFile.Logger.Info($"----> NEW CARD EXISTS {newCard}");
                 if (base.IsUpgraded)
                 {
                     CardCmd.Upgrade(newCard);
                 }
-                await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, addedByPlayer: true);
+                await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, creator: base.Owner);
             }
             await CardCmd.Exhaust(choiceContext, cardToMove.FirstOrDefault());
         }

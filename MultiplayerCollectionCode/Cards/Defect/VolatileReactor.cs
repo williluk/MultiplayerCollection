@@ -46,8 +46,8 @@ public class VolatileReactor() : CustomCardModel(0, CardType.Skill,
         IEnumerable<CardModel> list = CardFactory.GetForCombat(base.Owner, [card], base.ResolveEnergyXValue() + added, base.Owner.RunState.Rng.CombatCardGeneration);
         IEnumerable<CardModel> list2 = CardFactory.GetForCombat(base.Owner, [card], base.ResolveEnergyXValue() + added, base.Owner.RunState.Rng.CombatCardGeneration);
 
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true));
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list2, PileType.Draw, addedByPlayer: true));
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, creator: base.Owner));
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list2, PileType.Draw, creator: base.Owner));
 
         await Cmd.Wait(0.5f);
     }

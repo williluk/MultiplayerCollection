@@ -56,11 +56,13 @@ public class FlurryOfBladesPower : CustomPowerModel
         }
     }
     
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         if (side == base.Owner.Side)
         {
-            await PowerCmd.Remove(this);
+            PowerCmd.Remove(this);
         }
+        return Task.CompletedTask;
     }
+    
 }

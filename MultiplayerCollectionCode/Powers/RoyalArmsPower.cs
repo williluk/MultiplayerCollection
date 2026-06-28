@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.Runs;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Players;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
@@ -20,8 +21,6 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
 public class RoyalArmsPower : CustomPowerModel
 {
-    // THIS FIELD MUST BE SET BY THE CREATING CARD
-    public static readonly SpireField<CardModel, Creature> _createdBy = new(() => null);
     
     //Loads from MutiplayerCollection/images/powers/your_power.png
     public override string CustomPackedIconPath
@@ -46,10 +45,10 @@ public class RoyalArmsPower : CustomPowerModel
     public override PowerStackType StackType => PowerStackType.None;
         
     // CODE GOES HERE
-    public override Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
+
+    public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
-        if (card.Owner.Creature != base.Owner && addedByPlayer 
-                                              && RoyalArmsPower._createdBy.Get(card) == base.Owner)
+        if (card.Owner.Creature != base.Owner && creator == base.Owner.Player)
         {
             CardCmd.Enchant<RoyalArmsEnchantment>(card, 1);
         }

@@ -24,7 +24,7 @@ public class PoisonEnchantment : CustomEnchantmentModel
     {
         if (base.Status == EnchantmentStatus.Normal)
         {
-            await PowerCmd.Apply<PoisonPower>(cardPlay.Target, 3m, base.Card.Owner.Creature, cardPlay.Card, false);
+            await PowerCmd.Apply<PoisonPower>(new ThrowingPlayerChoiceContext(), cardPlay.Target, 3m, base.Card.Owner.Creature, cardPlay.Card, false);
         }
     }
 }

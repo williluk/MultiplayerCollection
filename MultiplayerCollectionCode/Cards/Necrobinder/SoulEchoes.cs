@@ -21,7 +21,7 @@ public class SoulEchoes() : CustomCardModel(1, CardType.Power,
         CardPlay play)
     {
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<SoulEchoesPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<SoulEchoesPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

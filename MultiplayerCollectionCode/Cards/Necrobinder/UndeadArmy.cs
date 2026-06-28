@@ -26,7 +26,7 @@ public class UndeadArmy() : CustomCardModel(2, CardType.Power,
         CardPlay play)
     {
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<UndeadArmyPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<UndeadArmyPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

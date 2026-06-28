@@ -47,7 +47,7 @@
   "MULTIPLAYERCOLLECTION-ARMS_DEALER.title": "Arms Dealer",
   "MULTIPLAYERCOLLECTION-ROYAL_SUPPORT.description": "All allies gain {IfUpgraded:show:X+3|X} Vigor next turn.",
   "MULTIPLAYERCOLLECTION-ROYAL_SUPPORT.title": "Royal Support",
-  "MULTIPLAYERCOLLECTION-DELEGATE.description": "Exhaust a card. Target player adds a copy of it to their hand.",
+  "MULTIPLAYERCOLLECTION-DELEGATE.description": "Exhaust a card. Another player adds a{IfUpgraded:show:n Upgraded|} copy of it to their hand. ",
   "MULTIPLAYERCOLLECTION-DELEGATE.title": "Delegate",
   "MULTIPLAYERCOLLECTION-STAR_PARTNER.description": "Add {IfUpgraded:show:a|two} random Multiplayer card to your hand.",
   "MULTIPLAYERCOLLECTION-STAR_PARTNER.title": "Star Partner",

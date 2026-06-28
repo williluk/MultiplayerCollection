@@ -34,7 +34,7 @@ public class Pickpocket() : CustomCardModel(2, CardType.Skill,
         {
             value += 10;
         }
-        await PowerCmd.Apply<RoyaltiesPower>(base.Owner.Creature, value, base.Owner.Creature, this);
+        await PowerCmd.Apply<RoyaltiesPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, value, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

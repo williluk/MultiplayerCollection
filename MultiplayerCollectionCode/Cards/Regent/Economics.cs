@@ -21,7 +21,7 @@ public class Economics() : CustomCardModel(2, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<EconomicsPower>(base.Owner.Creature, base.DynamicVars["StarReq"].BaseValue, base.Owner.Creature, null);
+        await PowerCmd.Apply<EconomicsPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, base.DynamicVars["StarReq"].BaseValue, base.Owner.Creature, null);
 
     }
 

@@ -35,10 +35,10 @@ public class RicochetBlade() : CustomCardModel(1,
             .Execute(choiceContext);
         
         List<RicochetBlade> list = Create(play.Target.Player, base.CombatState).ToList();
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true));
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, creator: base.Owner));
     }
 
-    public static IEnumerable<RicochetBlade> Create(Player owner, CombatState combatState)
+    public static IEnumerable<RicochetBlade> Create(Player owner, ICombatState combatState)
     {
         List<RicochetBlade> list = new List<RicochetBlade>();
 

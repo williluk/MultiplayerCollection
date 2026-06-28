@@ -7,7 +7,6 @@
     {
         // Per ally code here
     }
-    // Apply to self separately 
 
 === ATTACK SCRIPT ===
 ArgumentNullException.ThrowIfNull(play.Target, "play.Target");

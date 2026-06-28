@@ -3,6 +3,7 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 
@@ -24,7 +25,7 @@ public class CommandSeat() : CustomRelicModel
             foreach (Creature item in enumerable)
             {
                 // Per ally code here
-                PowerCmd.Apply<StrengthPower>(item, 2, base.Owner.Creature, null);
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, 2, base.Owner.Creature, null);
             }
             _active = true;
         }
@@ -40,7 +41,7 @@ public class CommandSeat() : CustomRelicModel
             foreach (Creature item in enumerable)
             {
                 // Per ally code here
-                PowerCmd.Apply<StrengthPower>(item, -2, base.Owner.Creature, null);
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, -2, base.Owner.Creature, null);
             }
             _active = false;
         }

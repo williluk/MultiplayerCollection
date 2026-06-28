@@ -35,7 +35,7 @@ public class ShieldMaster() : CustomCardModel(1,
             DynamicTargetType._dynamicTargetType.Set(item, TargetType.AnyPlayer);
         }
         
-        await PowerCmd.Apply<ShieldMasterPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<ShieldMasterPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

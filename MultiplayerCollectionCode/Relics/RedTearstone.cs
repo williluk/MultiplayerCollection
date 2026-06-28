@@ -37,7 +37,7 @@ public class RedTearstone() : CustomRelicModel
     {
         if (creature.CurrentHp <= creature.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100))
         {
-            await PowerCmd.Apply<RedTearstonePower>(creature, base.DynamicVars["DamageBoostValue"].BaseValue, creature, null);
+            await PowerCmd.Apply<RedTearstonePower>(new ThrowingPlayerChoiceContext(),creature, base.DynamicVars["DamageBoostValue"].BaseValue, creature, null);
         } 
     }
     

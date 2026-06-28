@@ -30,7 +30,7 @@ public class MinionAssist() : CustomCardModel(0,
         CardPlay play)
     {
         await CreatureCmd.GainBlock(play.Target, base.DynamicVars.Block, play, false);
-        await PowerCmd.Apply<VigorPower>(play.Target, base.DynamicVars.Power<VigorPower>().BaseValue, base.Owner.Creature, this, false);
+        await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(), play.Target, base.DynamicVars.Power<VigorPower>().BaseValue, base.Owner.Creature, this, false);
     }
     protected override void OnUpgrade()
     {

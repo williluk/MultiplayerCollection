@@ -62,7 +62,7 @@ public class SoulEchoesPower : CustomPowerModel
             {
                 List<Soul> list = Soul.Create(item.Player, 1, base.CombatState).ToList();
                 
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, creator: base.Owner.Player));
             }
 
             triggeredThisTurn = true;
