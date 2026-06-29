@@ -21,7 +21,7 @@ public class Filter() : CustomCardModel(1, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<PowerUpPower>(new ThrowingPlayerChoiceContext(),base.Owner.Creature, 1, base.Owner.Creature, null);
+        await PowerCmd.Apply<FilterPower>(new ThrowingPlayerChoiceContext(),base.Owner.Creature, 1, base.Owner.Creature, null);
 
     }
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Godot;
 using BaseLib.Abstracts;
+using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Commands;
@@ -15,6 +16,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using MultiplayerCollection.MultiplayerCollectionCode.Extensions;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode;
 
@@ -22,7 +24,7 @@ namespace MultiplayerCollection.MultiplayerCollectionCode;
 public sealed class ChargingOrb : CustomOrbModel
 {
     public override Color DarkenedColor => new Color("2d6e2d");
-
+    public override string? CustomIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
     // Reuse Dark Orb sounds - practical use of overrides
     public override string? CustomPassiveSfx => "event:/sfx/characters/defect/defect_lighting_passive";
     public override string? CustomEvokeSfx => "event:/sfx/characters/defect/defect_lighting_evoke";
@@ -31,7 +33,7 @@ public sealed class ChargingOrb : CustomOrbModel
     public override decimal PassiveVal => ModifyOrbValue(1m);
     public override decimal EvokeVal => ModifyOrbValue(10m);
 
-    /*public override Node2D? CreateCustomSprite()
+    public override Node2D? CreateCustomSprite()
     {
         var container = new Node2D();
         // back layer: dark orb (green tint)
@@ -52,7 +54,7 @@ public sealed class ChargingOrb : CustomOrbModel
         glass.Modulate = new Color(0.3f, 0.9f, 0.3f, 1.0f);
         container.AddChild(glass);
         return container;
-    }*/
+    }
 
     // Trigger passive at end of turn - standard pattern for all orbs
     public override async Task BeforeTurnEndOrbTrigger(PlayerChoiceContext choiceContext)

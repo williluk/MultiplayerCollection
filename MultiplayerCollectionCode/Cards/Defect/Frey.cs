@@ -1,16 +1,18 @@
 ﻿using BaseLib.Abstracts;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
-
+[Pool(typeof(DefectCardPool))]
 public class Frey() : CustomCardModel(0, CardType.Attack,
     CardRarity.Token, TargetType.AnyEnemy)
 {

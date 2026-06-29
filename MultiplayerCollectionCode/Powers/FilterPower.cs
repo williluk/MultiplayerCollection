@@ -38,7 +38,7 @@ public class FilterPower : CustomPowerModel
         }
     }
         
-    public override PowerType Type => PowerType.Debuff; 
+    public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
         
     // CODE GOES HERE
@@ -51,9 +51,12 @@ public class FilterPower : CustomPowerModel
         {
             // Per ally code here
             CardModel card = PileType.Discard.GetPile(item.Player).Cards.Where(Filter).FirstOrDefault();
-            CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner.Player);
-            cardsToAdd.Add(newCard);
-            await CardCmd.Exhaust(choiceContext, card);
+            if (card != null)
+            {
+                CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner.Player);
+                cardsToAdd.Add(newCard);
+                await CardCmd.Exhaust(choiceContext, card);
+            }
         }
         CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(cardsToAdd, PileType.Hand, creator: base.Owner.Player));
     }
