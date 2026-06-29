@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
-namespace MultiplayerCollection.MultiplayerCollectionCode.Cards.Defect;
+namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(DefectCardPool))]
 public class PowerUp() : CustomCardModel(2, CardType.Power,
@@ -23,9 +23,9 @@ public class PowerUp() : CustomCardModel(2, CardType.Power,
     {
         await PowerCmd.Apply<PowerUpPower>(new ThrowingPlayerChoiceContext(),base.Owner.Creature, 1, base.Owner.Creature, null);
     }
-
+    
     protected override void OnUpgrade()
-    {
+    {   
         base.EnergyCost.UpgradeBy(-1);
     }
 }

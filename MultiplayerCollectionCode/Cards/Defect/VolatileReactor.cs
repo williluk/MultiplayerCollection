@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
-namespace MultiplayerCollection.MultiplayerCollectionCode.Cards.Defect;
+namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(DefectCardPool))]
 public class VolatileReactor() : CustomCardModel(0, CardType.Skill,
@@ -51,9 +51,5 @@ public class VolatileReactor() : CustomCardModel(0, CardType.Skill,
 
         await Cmd.Wait(0.5f);
     }
-
-    protected override void OnUpgrade()
-    {
-
-    }
+    
 }

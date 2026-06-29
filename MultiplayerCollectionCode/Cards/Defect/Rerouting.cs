@@ -2,30 +2,32 @@
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
-[Pool(typeof(IroncladCardPool))]
-public class Frontliner() : CustomCardModel(1, CardType.Power,
-    CardRarity.Rare, TargetType.Self)
+[Pool(typeof(DefectCardPool))]
+public class Rerouting() : CustomCardModel(2, CardType.Power,
+    CardRarity.Common, TargetType.Self)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [];
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<FrontlinerPower>(1m)};
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<FrontlinerPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<ReroutingPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, -base.DynamicVars["PartyMascotPower"].BaseValue,  base.Owner.Creature, this);
+
     }
 
     protected override void OnUpgrade()
-    {   
-        base.DynamicVars["PartyMascotPower"].UpgradeValueBy(1m);
-
+    {
+        base.EnergyCost.UpgradeBy(-1);
     }
 }

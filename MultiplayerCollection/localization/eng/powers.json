@@ -46,5 +46,11 @@
   "MULTIPLAYERCOLLECTION-ECONOMICS_POWER.title": "Economics",
   "MULTIPLAYERCOLLECTION-POWER_UP_POWER.description": "The first power you play each turn is also played on all allies.",
   "MULTIPLAYERCOLLECTION-POWER_UP_POWER.smartDescription": "The first power you play each turn is also played on all allies.",
-  "MULTIPLAYERCOLLECTION-POWER_UP_POWER.title": "Power Up"
-}
+  "MULTIPLAYERCOLLECTION-POWER_UP_POWER.title": "Power Up",
+  "MULTIPLAYERCOLLECTION-FILTER_POWER.description": "At the start of each turn, add 1(2) status cards from each allies draw pile into your hand.",
+  "MULTIPLAYERCOLLECTION-FILTER_POWER.smartDescription": "At the start of each turn, add 1(2) status cards from each allies draw pile into your hand.",
+  "MULTIPLAYERCOLLECTION-FILTER_POWER.title": "Filter",
+  "MULTIPLAYERCOLLECTION-REROUTING_POWER.description": "Lighting Orbs you channel are replaced by Charging Orbs.",
+  "MULTIPLAYERCOLLECTION-REROUTING_POWER.smartDescription": "Lighting Orbs you channel are replaced by Charging Orbs.",
+  "MULTIPLAYERCOLLECTION-REROUTING_POWER.title": "Rerouting"
+}  

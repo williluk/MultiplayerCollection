@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
@@ -17,8 +18,6 @@ public class GraciousGifts() : CustomCardModel(1,
     TargetType.AllAllies)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-
-    private CardModel? _mockSelectedCard;
     
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
@@ -26,20 +25,16 @@ public class GraciousGifts() : CustomCardModel(1,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        CardModel cardModel;
-        if (_mockSelectedCard == null)
+        List<CardModel> cards = CardFactory.GetDistinctForCombat(base.Owner, ModelDb.CardPool<ColorlessCardPool>().GetUnlockedCards(base.Owner.UnlockState, base.Owner.RunState.CardMultiplayerConstraint), 3, base.Owner.RunState.Rng.CombatCardGeneration).ToList();
+        if (base.IsUpgraded)
         {
-            List<CardModel> cards = CardFactory.GetDistinctForCombat(base.Owner, ModelDb.CardPool<ColorlessCardPool>().GetUnlockedCards(base.Owner.UnlockState, base.Owner.RunState.CardMultiplayerConstraint), 3, base.Owner.RunState.Rng.CombatCardGeneration).ToList();
-            cardModel = await CardSelectCmd.FromChooseACardScreen(choiceContext, cards, base.Owner, canSkip: true);
-            if (IsUpgraded)
+            MainFile.Logger.Info("-------> GraciousGifts is upgraded");
+            foreach (CardModel item in cards)
             {
-                CardCmd.Upgrade(cardModel);
+                CardCmd.Upgrade(item);
             }
         }
-        else
-        {
-            cardModel = _mockSelectedCard;
-        }
+        CardModel cardModel = await CardSelectCmd.FromChooseACardScreen(choiceContext, cards, base.Owner, canSkip: true);
         if (cardModel != null)
         {
             if (base.CombatState == null)
@@ -51,16 +46,13 @@ public class GraciousGifts() : CustomCardModel(1,
                 // Per ally code here
                 CardModel newCard = CardFactory.GetDistinctForCombat(item.Player, [cardModel.CanonicalInstance], 1, base.Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
                 newCard.AddKeyword(CardKeyword.Ethereal);
+                if (base.IsUpgraded)
+                {
+                    CardCmd.Upgrade(newCard);
+                }
                 await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, creator: base.Owner);
 
             }
         }
-    }
-    
-    
-    public void MockSelectedCard(CardModel card)
-    {
-        AssertMutable();
-        _mockSelectedCard = card;
     }
 }

@@ -9,23 +9,24 @@ using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
-[Pool(typeof(IroncladCardPool))]
-public class Frontliner() : CustomCardModel(1, CardType.Power,
-    CardRarity.Rare, TargetType.Self)
+
+[Pool(typeof(DefectCardPool))]
+public class Filter() : CustomCardModel(1, CardType.Power,
+    CardRarity.Uncommon, TargetType.Self)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<FrontlinerPower>(1m)};
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<FilterPower>(2m)};
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<FrontlinerPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<PowerUpPower>(new ThrowingPlayerChoiceContext(),base.Owner.Creature, 1, base.Owner.Creature, null);
+
     }
 
     protected override void OnUpgrade()
-    {   
-        base.DynamicVars["PartyMascotPower"].UpgradeValueBy(1m);
+    {
 
     }
 }

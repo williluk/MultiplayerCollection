@@ -6,38 +6,33 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Orbs;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
-[Pool(typeof(IroncladCardPool))]
-public class Invigorate() : CustomCardModel(1, CardType.Skill,
-    CardRarity.Uncommon, TargetType.Self)
+
+[Pool(typeof(DefectCardPool))]
+public class ChillTouch() : CustomCardModel(1, CardType.Skill,
+    CardRarity.Common, TargetType.AllAllies)
 {
-    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [ new HealVar(5m), new DynamicVar("HpThreshold", 50m), ];
-    
+    protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        int numValidPlayers = 0;
         if (base.CombatState == null)
             return;
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
         foreach (Creature item in enumerable)
         {
-            if (item.CurrentHp <= item.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100m))
+            // Per ally code here
+            await OrbCmd.Channel<FrostOrb>(choiceContext, item.Player);
+            if (base.IsUpgraded)
             {
-                numValidPlayers++;
+                await Cmd.CustomScaledWait(0.1f, 0.25f);
+                await OrbCmd.Channel<FrostOrb>(choiceContext, item.Player);
             }
         }
-        await CreatureCmd.Heal(base.Owner.Creature, base.DynamicVars.Heal.BaseValue * numValidPlayers);
-        // Apply to self separately 
-    }
-
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Heal.UpgradeValueBy(2m);
     }
 }

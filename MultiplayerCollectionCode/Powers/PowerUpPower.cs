@@ -14,7 +14,9 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Factories;
+using MegaCrit.Sts2.Core.Random;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
@@ -42,35 +44,45 @@ public class PowerUpPower : CustomPowerModel
         
     public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.None;
-
-    private bool _used = false;
-        
+    
     // CODE GOES HERE
+    public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
+    {
+        if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
+        {
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyAlly);
+        }
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterCardDrawnEarly(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
+    {
+        if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
+        {
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyAlly);
+        }
+        return Task.CompletedTask;
+    }
+    
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Type == CardType.Power && cardPlay.Card.Owner.Creature == base.Owner)
+        if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card.TargetType == TargetType.Self && cardPlay.Card.Type == CardType.Power)
         {
-            if (base.CombatState == null)
-                return;
-            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer && c != base.Owner select c;
-            foreach (Creature item in enumerable)
+            if (DynamicTargetType._dynamicTargetType.Get(cardPlay.Card) == TargetType.AnyAlly)
             {
-                CardModel newCard = CardFactory.GetDistinctForCombat(item.Player, [cardPlay.Card.CanonicalInstance], 1, base.Owner.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault();
-                if (newCard != null)
-                {
-                    await CardCmd.AutoPlay(context, newCard, item, AutoPlayType.Default);
-                }
+                await CardCmd.AutoPlay(context, cardPlay.Card, cardPlay.Target);
             }
         }
     }
-
-    public override Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    
+    public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
-        if (player.Creature == base.Owner)
+        modifiedCost = originalCost;
+        if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
         {
-            _used = true;
-        }
-
-        return Task.CompletedTask;
+            modifiedCost = originalCost + (decimal)base.Amount;
+            return true;
+        } 
+        return false;
     }
 }

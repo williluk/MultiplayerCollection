@@ -35,7 +35,7 @@ public class CommandSeat() : CustomRelicModel
 
     public override Task AfterCurrentHpChanged(Creature creature, decimal delta)
     {
-        if (creature == base.Owner.Creature && _active == false && base.Owner.Creature.CombatState != null) 
+        if (creature == base.Owner.Creature && _active && base.Owner.Creature.CombatState != null) 
         {
             IEnumerable<Creature> enumerable = from c in base.Owner.Creature.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer && c != base.Owner.Creature select c;
             foreach (Creature item in enumerable)

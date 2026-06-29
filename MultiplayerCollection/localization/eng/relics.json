@@ -13,5 +13,8 @@
   "OPTION_POISON.title": "Poisoner's Kit",
   "MULTIPLAYERCOLLECTION-COMMAND_SEAT.description": "Allies gain 2 Strength each combat until you take damage.",
   "MULTIPLAYERCOLLECTION-COMMAND_SEAT.flavor": "Allies gain 2 Strength each combat until you take damage.",
-  "MULTIPLAYERCOLLECTION-COMMAND_SEAT.title": "Command Seat"
+  "MULTIPLAYERCOLLECTION-COMMAND_SEAT.title": "Command Seat",
+  "MULTIPLAYERCOLLECTION-CORE_SHARDS.description": "At the start of each combat, each ally Channels 1 random multiplayer orb.",
+  "MULTIPLAYERCOLLECTION-CORE_SHARDS.flavor": "At the start of each combat, each ally Channels 1 random multiplayer orb.",
+  "MULTIPLAYERCOLLECTION-CORE_SHARDS.title": "Core Shards"
 }
