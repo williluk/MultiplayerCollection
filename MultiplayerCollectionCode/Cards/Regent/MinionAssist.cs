@@ -4,6 +4,7 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -12,7 +13,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
-[Pool(typeof(RegentCardPool))]
+[Pool(typeof(TokenCardPool))]
 public class MinionAssist() : CustomCardModel(0,
     CardType.Skill, CardRarity.Token,
     TargetType.AnyAlly)
@@ -24,6 +25,17 @@ public class MinionAssist() : CustomCardModel(0,
             new BlockVar(5, ValueProp.Move),
             new PowerVar<VigorPower>(5)
         ];
+    
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new CardKeyword[1]
+    {
+        CardKeyword.Exhaust
+    };
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[2]
+    {
+        HoverTipFactory.FromPower<VigorPower>(),
+        HoverTipFactory.Static(StaticHoverTip.Block)
+    };
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

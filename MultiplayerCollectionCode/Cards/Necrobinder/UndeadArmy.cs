@@ -12,14 +12,14 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(NecrobinderCardPool))]
 public class UndeadArmy() : CustomCardModel(2, CardType.Power,
-    CardRarity.Rare, TargetType.Self)
+    CardRarity.Uncommon, TargetType.Self)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     
-    //protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
-    //{
-        //HoverTipFactory.Static(StaticHoverTip.SummonDynamic, base.DynamicVars.Summon)
-    //};
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+    {
+        HoverTipFactory.Static(StaticHoverTip.SummonStatic),
+    };
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

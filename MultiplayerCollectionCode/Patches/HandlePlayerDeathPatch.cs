@@ -45,6 +45,19 @@ internal class CombatManagerPatch
         __result = HandlePlayerDeathAsync(player);
         return false;
     }
+
+    private static async Task RecoverOrbSlots(Player player)
+    {
+        MainFile.Logger.Info("-----> Attempting Orb Slot Recovery");
+        await OrbCmd.AddSlots(player, player.BaseOrbSlotCount);
+    }
+    
+    [HarmonyPatch("HandlePlayerDeath")]
+    private static void Postfix(Player player, ref Task __result)
+    {
+        MainFile.Logger.Info("-----> In Death Postfix");
+        __result = RecoverOrbSlots(player);
+    }
     
     /*[HarmonyPatch("StartTurn")]
     private static void Postfix(CombatManager __instance, ref Task __result)

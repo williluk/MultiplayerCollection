@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -24,6 +25,11 @@ public class AidThem() : CustomCardModel(2, CardType.Skill,
     };
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[2]
+    {
+        HoverTipFactory.Static(StaticHoverTip.Transform),
+        HoverTipFactory.FromCard<MinionAssist>()
+    };
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

@@ -43,14 +43,14 @@ public class PowerUpPower : CustomPowerModel
     }
         
     public override PowerType Type => PowerType.Buff; 
-    public override PowerStackType StackType => PowerStackType.None;
+    public override PowerStackType StackType => PowerStackType.Single;
     
     // CODE GOES HERE
     public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
         {
-            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyAlly);
+            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyAlly);
         }
         return Task.CompletedTask;
     }
@@ -59,26 +59,27 @@ public class PowerUpPower : CustomPowerModel
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
         {
-            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyAlly);
+            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyAlly);
         }
         return Task.CompletedTask;
     }
-    
-    public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+
+    public async override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card.TargetType == TargetType.Self && cardPlay.Card.Type == CardType.Power)
+        if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card.Type == CardType.Power)
         {
-            if (DynamicTargetType._dynamicTargetType.Get(cardPlay.Card) == TargetType.AnyAlly)
+            if (CardModelGetTargetTypePatch._dynamicTargetType.Get(cardPlay.Card) == TargetType.AnyAlly)
             {
-                await CardCmd.AutoPlay(context, cardPlay.Card, cardPlay.Target);
+                CardModel newCard = base.CombatState.CreateCard(cardPlay.Card.CanonicalInstance, cardPlay.Target.Player);
+                await CardCmd.AutoPlay(choiceContext, newCard, cardPlay.Target);
             }
         }
     }
-    
+
     public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
         modifiedCost = originalCost;
-        if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
+        if (card.Owner == base.Owner.Player && card.Type == CardType.Power)
         {
             modifiedCost = originalCost + (decimal)base.Amount;
             return true;

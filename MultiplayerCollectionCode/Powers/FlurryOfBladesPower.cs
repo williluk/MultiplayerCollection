@@ -39,20 +39,22 @@ public class FlurryOfBladesPower : CustomPowerModel
         }
     }
         
-    public override PowerType Type => PowerType.Debuff; 
+    public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
-    
     
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (cardPlay.Card.Type == CardType.Attack && cardPlay.Card.Owner.Creature != base.Owner )
         {
-            var card = (await Shiv.CreateInHand(base.Owner.Player, 1, base.CombatState)).First();
-            if (cardPlay.Card.TargetType == TargetType.AllEnemies)
+            var cards = (await Shiv.CreateInHand(base.Owner.Player, base.Amount, base.CombatState));
+            foreach (CardModel c in cards)
             {
-                DynamicTargetType._dynamicTargetType.Set(card, TargetType.AllEnemies);
+                if (cardPlay.Card.TargetType == TargetType.AllEnemies)
+                {
+                    CardModelGetTargetTypePatch._dynamicTargetType.Set(c, TargetType.AllEnemies);
+                }
+                await CardCmd.AutoPlay(context, c, cardPlay.Target);
             }
-            await CardCmd.AutoPlay(context, card, cardPlay.Target);
         }
     }
     

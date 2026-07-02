@@ -42,7 +42,7 @@ public class UndeadArmyPower : CustomPowerModel
     
     public override PowerStackType StackType => PowerStackType.Counter;
     
-      protected override IEnumerable<DynamicVar> CanonicalVars => [ new SummonVar(1) ];
+      protected override IEnumerable<DynamicVar> CanonicalVars => [];
     
     //protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
     //{
@@ -58,7 +58,7 @@ public class UndeadArmyPower : CustomPowerModel
         IEnumerable<Player> enumerable = base.CombatState.Players.Where((Player p) => p.Creature.IsAlive && p != summoner && !p.Creature.HasPower<UndeadArmyPower>());
         foreach (Player item in enumerable)
         {
-            await OstyCmd.Summon(choiceContext, item, 1, this);
+            await OstyCmd.Summon(choiceContext, item, base.Amount, this);
             //await ForgeCmd.Forge(amount, item, this);
         }  
     }

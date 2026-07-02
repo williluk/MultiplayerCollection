@@ -29,7 +29,7 @@ public class RedTearstone() : CustomRelicModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("HpThreshold", 25m),
-        new DynamicVar("DamageBoostValue", 1.25m),
+        new DynamicVar("DamageBoostValue", 25m),
         new PowerVar<RedTearstonePower>(1m)
     ];
     
@@ -37,7 +37,7 @@ public class RedTearstone() : CustomRelicModel
     {
         if (creature.CurrentHp <= creature.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100))
         {
-            await PowerCmd.Apply<RedTearstonePower>(new ThrowingPlayerChoiceContext(),creature, base.DynamicVars["DamageBoostValue"].BaseValue, creature, null);
+            await PowerCmd.Apply<RedTearstonePower>(new ThrowingPlayerChoiceContext(),creature, 1m + (base.DynamicVars["DamageBoostValue"].BaseValue / 100), creature, null);
         } 
     }
     

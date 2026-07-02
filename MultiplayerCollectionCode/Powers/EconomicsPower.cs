@@ -47,6 +47,9 @@ public class EconomicsPower : CustomPowerModel
         public int triggerCount;
     }
 
+    
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
     public override PowerType Type => PowerType.Debuff; 
     public override PowerStackType StackType => PowerStackType.Counter;
         

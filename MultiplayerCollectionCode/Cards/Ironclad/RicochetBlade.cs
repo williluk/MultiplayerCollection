@@ -1,5 +1,7 @@
 ﻿using BaseLib.Abstracts;
+using BaseLib.Extensions;
 using BaseLib.Utils;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -7,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -23,8 +26,16 @@ public class RicochetBlade() : CustomCardModel(1,
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [];
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(12m, ValueProp.Move)];
-
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1]
+    {
+        new DamageVar(12m, ValueProp.Move)
+    };
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+    {
+        HoverTipFactory.FromKeyword(ExtraKeywords.Temporary),
+    };
+    
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
@@ -34,20 +45,44 @@ public class RicochetBlade() : CustomCardModel(1,
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         
-        List<RicochetBlade> list = Create(play.Target.Player, base.CombatState).ToList();
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, creator: base.Owner));
+        CardModel card = CreateClone();
+        //CardModelSetOwnerPatch._ownerOverrideEnabled.Set(card, true);
+        AccessTools.Field(typeof(CardModel), "_owner").SetValue(card, play.Target.Player);
+        //card.Owner = play.Target.Player; 
+        
+        card.AddKeyword(ExtraKeywords.Temporary);
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, creator: base.Owner));
+    }
+    
+    public async Task RemoveMe()
+    {
+        MainFile.Logger.Info("-----> Attempting temporary card removal");
+        await CardPileCmd.RemoveFromCombat(this);
+    }
+    
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side,
+        IEnumerable<Creature> participants)
+    {
+        if (side == CombatSide.Player && ExtraKeywords.IsTemporary(this))
+        {
+            await RemoveMe();
+        }
     }
 
-    public static IEnumerable<RicochetBlade> Create(Player owner, ICombatState combatState)
+    public override async Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
     {
-        List<RicochetBlade> list = new List<RicochetBlade>();
+        if (card == this && ExtraKeywords.IsTemporary(this) && (card.Pile.Type != PileType.Hand && card.Pile.Type != PileType.Play))
+        {
+            await RemoveMe();
+        }
+    }
 
-        var card = combatState.CreateCard<RicochetBlade>(owner);
-        card.AddKeyword(CardKeyword.Ethereal);
-        card.AddKeyword(CardKeyword.Exhaust);
-        list.Add(card);
-        
-        return list;
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        if (cardPlay.Card == this && ExtraKeywords.IsTemporary(this))
+        {
+            await RemoveMe();
+        }
     }
 
     protected override void OnUpgrade()

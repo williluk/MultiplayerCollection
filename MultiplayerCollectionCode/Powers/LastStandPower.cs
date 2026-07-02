@@ -12,6 +12,7 @@ using MegaCrit.Sts2.Core.Runs;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Players;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
@@ -20,6 +21,9 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
 public class LastStandPower : CustomPowerModel
 {
     //Loads from MutiplayerCollection/images/powers/your_power.png
+
+    private int turnCounter = 0;
+    
     public override string CustomPackedIconPath
     {
         get
@@ -42,23 +46,31 @@ public class LastStandPower : CustomPowerModel
     public override PowerStackType StackType => PowerStackType.None;
         
     // CODE GOES HERE
-    public override bool ShouldDie(Creature creature)
+    public override bool ShouldTakeExtraTurn(Player player)
     {
-        if (creature != base.Owner)
+        if (turnCounter == 0)
         {
             return true;
         }
         return false;
     }
 
-    public override Task AfterPreventingDeath(Creature creature)
+    public override Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
-        if (creature == base.Owner)
-        {
-            CreatureCmd.Heal(creature, 1m, true);
-            if (base.Amount > 1)
-                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), base.Owner, 5, base.Owner, null);
-        }
+        turnCounter++;
         return Task.CompletedTask;
+    }
+
+    public async override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (side == CombatSide.Player && turnCounter >= 1)
+        {
+            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer select c;
+            foreach (Creature item in enumerable)
+            {
+                // Per ally code here
+                await CreatureCmd.Kill(item, false);
+            }
+        }
     }
 }

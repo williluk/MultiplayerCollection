@@ -24,6 +24,11 @@ public class PartyMascot() : CustomCardModel(1,
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<PartyMascotPower>(2m)};
     
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+    {
+        HoverTipFactory.FromPower<StrengthPower>(),
+    };
+    
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

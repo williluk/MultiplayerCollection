@@ -3,6 +3,7 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -20,6 +21,11 @@ public class ShieldMaster() : CustomCardModel(1,
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+    {
+        HoverTipFactory.Static(StaticHoverTip.Block),
+    };
+    
     
     // Add a dyanmic target spire field
     // make injection return dynamic target 
@@ -32,7 +38,7 @@ public class ShieldMaster() : CustomCardModel(1,
         List<CardModel> list = PileType.Hand.GetPile(base.Owner).Cards.Where((CardModel c) => c != null && c.TargetType == TargetType.Self && c.GainsBlock).ToList();
         foreach (CardModel item in list)
         {
-            DynamicTargetType._dynamicTargetType.Set(item, TargetType.AnyPlayer);
+            CardModelGetTargetTypePatch._dynamicTargetType.Set(item, TargetType.AnyPlayer);
         }
         
         await PowerCmd.Apply<ShieldMasterPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);

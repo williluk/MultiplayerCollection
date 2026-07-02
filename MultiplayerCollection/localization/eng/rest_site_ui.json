@@ -1,5 +1,8 @@
 ﻿{
   "OPTION_POISON.name": "Poisoner's Kit",
-  "OPTION_POISON.description": "Enchant an Attack with Poison.",
-  "OPTION_POISON.descriptionDisabled": "Enchant an Attack with Poison."
+  "OPTION_POISON.description": "[purple]Enchant[/purple] an Attack with [gold]Poison[/gold].",
+  "OPTION_POISON.descriptionDisabled": "[red]You have no available cards to [purple]Enchant[/purple].[/red]",
+  "OPTION_TRADE.name": "Trade",
+  "OPTION_TRADE.description": "Trade cards with {HasTarget:{Name}|someone else}.{TradePending:\n[gold]{PendingName}[/gold] wants to give you a [gold]{PendingCard}[/gold]|}",
+  "OPTION_TRADE.descriptionDisabled": "[red]You have no available cards to trade.[/red]"
 }  

@@ -6,20 +6,35 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 
 [Pool(typeof(DefectCardPool))]
 public class EnterTheFrey() : CustomCardModel(1,
-    CardType.Skill, CardRarity.Rare,
+    CardType.Skill, CardRarity.Uncommon,
     TargetType.AllAllies)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new CardKeyword[1]
+    {
+        CardKeyword.Exhaust
+    };
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[2]
+    {
+        HoverTipFactory.FromCard<Frey>(),
+        HoverTipFactory.FromKeyword(CardKeyword.Exhaust)
+    };
+    
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)
@@ -38,5 +53,9 @@ public class EnterTheFrey() : CustomCardModel(1,
             CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, creator: base.Owner));
         }
     }
-    
+
+    protected override void OnUpgrade()
+    {
+        RemoveKeyword(CardKeyword.Exhaust);
+    }
 }

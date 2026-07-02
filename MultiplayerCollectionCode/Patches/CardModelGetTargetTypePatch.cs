@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode;
 
-public class DynamicTargetType
+public class CardModelGetTargetTypePatch
 {
     public static readonly SpireField<CardModel, TargetType> _dynamicTargetType = new(() => TargetType.None);
 }
@@ -18,9 +18,9 @@ static class DynamicTargetTypePatch
 
     public static void Postfix(CardModel __instance, ref TargetType __result)
     {
-        if (DynamicTargetType._dynamicTargetType.Get(__instance) != TargetType.None)
+        if (CardModelGetTargetTypePatch._dynamicTargetType.Get(__instance) != TargetType.None)
         {
-            __result = DynamicTargetType._dynamicTargetType.Get(__instance);
+            __result = CardModelGetTargetTypePatch._dynamicTargetType.Get(__instance);
         }
     }
 }

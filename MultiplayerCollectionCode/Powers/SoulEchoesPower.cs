@@ -44,7 +44,7 @@ public class SoulEchoesPower : CustomPowerModel
     
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    private bool triggeredThisTurn = false;
+    private int triggers = 0;
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
     {
@@ -53,7 +53,7 @@ public class SoulEchoesPower : CustomPowerModel
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner.Creature == base.Owner && cardPlay.Card is Soul && !triggeredThisTurn)
+        if (cardPlay.Card.Owner.Creature == base.Owner && cardPlay.Card is Soul && triggers <= base.Amount)
         {
             IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner)
                 where c != null && c.IsAlive && c.IsPlayer && c != base.Owner
@@ -65,7 +65,7 @@ public class SoulEchoesPower : CustomPowerModel
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, creator: base.Owner.Player));
             }
 
-            triggeredThisTurn = true;
+            triggers++;
         }
     }
 
@@ -73,7 +73,7 @@ public class SoulEchoesPower : CustomPowerModel
     {
         if (player == base.Owner.Player)
         {
-            triggeredThisTurn = false;
+            triggers = 0;
         }
         return Task.CompletedTask;
     }

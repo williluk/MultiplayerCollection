@@ -13,6 +13,7 @@ using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Monsters;
 
 
@@ -42,6 +43,12 @@ public class RedTearstonePower : CustomPowerModel
     public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
         
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[3]
+    {
+        new BlockVar(0, ValueProp.Move), 
+        new DynamicVar("dmgBoost", 0.25m),
+        new DynamicVar("totalBoost", base.Amount * base.DynamicVars["dmgBoost"].BaseValue),
+    };
     // CODE GOES HERE
     
     public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)

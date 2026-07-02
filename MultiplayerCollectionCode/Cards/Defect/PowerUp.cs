@@ -15,7 +15,10 @@ public class PowerUp() : CustomCardModel(2, CardType.Power,
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [];
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1]
+    {
+        new EnergyVar(1)
+    };
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

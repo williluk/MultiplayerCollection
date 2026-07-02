@@ -12,14 +12,13 @@ using MegaCrit.Sts2.Core.Runs;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Models.Orbs;
-using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Cards;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
 
-public class ReroutingPower : CustomPowerModel
+public class PickpocketPower : CustomPowerModel
 {
     //Loads from MutiplayerCollection/images/powers/your_power.png
     public override string CustomPackedIconPath
@@ -41,17 +40,34 @@ public class ReroutingPower : CustomPowerModel
     }
 
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.None;
+    public override PowerStackType StackType => PowerStackType.Single;
+
+    public CardModel? WatchCard = null;
+    public CardModel? HeldCard = null;
 
     // CODE GOES HERE
-
-    public override Task AfterOrbChanneled(PlayerChoiceContext choiceContext, Player player, OrbModel orb)
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (player == base.Owner.Player && orb is LightningOrb)
+        MainFile.Logger.Info($"------> HeldCard is {HeldCard}");
+        if (cardPlay.Card == WatchCard && HeldCard != null)
         {
-            base.Owner.Player.PlayerCombatState.OrbQueue.Remove(orb);
-            base.Owner.Player.PlayerCombatState.OrbQueue.TryEnqueue(new ChargingOrb());
+            await CardPileCmd.AddGeneratedCardToCombat(HeldCard, PileType.Hand, creator: null);
+            await PowerCmd.Remove(this);
         }
-        return Task.CompletedTask;
+    }
+
+    public override async Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
+    {
+        MainFile.Logger.Info($"------> HeldCard is {HeldCard}");
+        if (card == WatchCard && HeldCard != null)
+        {
+            await CardPileCmd.AddGeneratedCardToCombat(HeldCard, PileType.Hand, creator: null);
+            await PowerCmd.Remove(this);
+        }
+    }
+
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        await PowerCmd.Remove(this);
     }
 }

@@ -63,13 +63,18 @@ public class ShieldMasterPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
     
-    protected override IEnumerable<DynamicVar> CanonicalVars => [ new BlockVar(0, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[3]
+    {
+        new BlockVar(0, ValueProp.Move), 
+        new DynamicVar("blockBoost", 25m),
+        new DynamicVar("totalBoost", base.Amount * base.DynamicVars["blockBoost"].BaseValue),
+    };
     
     public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {
-            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyPlayer);
+            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyPlayer);
         }
         return Task.CompletedTask;
     }
@@ -78,7 +83,7 @@ public class ShieldMasterPower : CustomPowerModel
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {
-            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyPlayer);
+            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyPlayer);
         }
         return Task.CompletedTask;
     }
@@ -87,12 +92,14 @@ public class ShieldMasterPower : CustomPowerModel
         CardPlay? cardPlay)
     {
         if (cardSource == null || cardPlay == null || cardPlay.Target == null)
-        {
             return 1m;
-        }
+        if (CardModelGetTargetTypePatch._dynamicTargetType.Get(cardPlay.Card) != TargetType.AnyAlly)
+            return 1m;
+        if (!cardPlay.Target.IsPlayer)
+            return 1m;
         if (target == base.Owner && cardPlay.Target != base.Owner)
         {
-            base.DynamicVars.Block.BaseValue = block * 1.25m;
+            base.DynamicVars.Block.BaseValue = block * (1m + (base.DynamicVars["blockBoost"].BaseValue * base.Amount / 100m));
             CreatureCmd.GainBlock(cardPlay.Target, base.DynamicVars.Block, cardPlay);
             base.DynamicVars.Block.BaseValue = 0; 
             return 0m;

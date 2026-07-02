@@ -4,8 +4,10 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
 
@@ -17,7 +19,12 @@ public class BestowCurse() : CustomCardModel(1,
     TargetType.AnyEnemy)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<BestowCursePower>(2m)};
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<BestowCursePower>(3m)};
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+    {
+        HoverTipFactory.FromPower<DoomPower>(),
+    };
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
@@ -30,6 +37,6 @@ public class BestowCurse() : CustomCardModel(1,
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars["BestowCursePower"].UpgradeValueBy(1m);
+        base.DynamicVars["BestowCursePower"].UpgradeValueBy(2m);
     }
 }

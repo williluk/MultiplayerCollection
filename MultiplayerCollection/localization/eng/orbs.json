@@ -1,0 +1,11 @@
+﻿{
+  "MULTIPLAYERCOLLECTION-TARGETING_ORB.title": "Targeting",
+  "MULTIPLAYERCOLLECTION-TARGETING_ORB.description": "Orb: Gives allies [gold]Focus[/gold].",
+  "MULTIPLAYERCOLLECTION-TARGETING_ORB.smartDescription": "[gold]Passive:[/gold] At the start of turn, allies gain [blue]{Passive}[/blue] [gold]Focus[/gold] this turn.\n[gold]Evoke: Allies gain [blue]{Evoke}[/blue] [gold]Focus[/gold] this turn",
+  "MULTIPLAYERCOLLECTION-BIO_ORB.title": "Bio Orb",
+  "MULTIPLAYERCOLLECTION-BIO_ORB.description": "Orb: Reproduces and gains Orb Slots",
+  "MULTIPLAYERCOLLECTION-BIO_ORB.smartDescription": "[gold]Passive:[/gold] At the end of turn, a random ally [gold]Channels[/gold] [blue]1[/blue] [gold]Bio[/gold].\n[gold]Evoke:[/gold] Gain [blue]1[/blue] Orb Slot",
+  "MULTIPLAYERCOLLECTION-SPIRIT_ORB.title": "Spirit Orb",
+  "MULTIPLAYERCOLLECTION-SPIRIT_ORB.description": "Orb: Allies can lend energy to boost this orbs damage. Evoking deals the damage to all enemies.",
+  "MULTIPLAYERCOLLECTION-SPIRIT_ORB.smartDescription": "[gold]Passive:[/gold] At the start of turn, all allies create a [gold]Lend Energy[/gold].\n[gold]Evoke:[/gold] Deal [blue]{Evoke}[/blue] damage to ALL enemies."
+}

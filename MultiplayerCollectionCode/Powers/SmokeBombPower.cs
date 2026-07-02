@@ -41,7 +41,7 @@ public class SmokeBombPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     
-    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new DynamicVar("DamageDecrease", 0.50m)};
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new DynamicVar("DamageDecrease", 50m)};
     
     public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
@@ -61,7 +61,7 @@ public class SmokeBombPower : CustomPowerModel
         {
             return 1m;
         }
-        return base.DynamicVars["DamageDecrease"].BaseValue;
+        return base.DynamicVars["DamageDecrease"].BaseValue / 100m;
     }
 
     public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)

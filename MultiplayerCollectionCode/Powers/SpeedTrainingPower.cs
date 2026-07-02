@@ -54,6 +54,8 @@ public class SpeedTrainingPower : CustomPowerModel
     
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] { new CardsVar(4) };
 
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    
     protected override object InitInternalData()
     {
         return new Data();

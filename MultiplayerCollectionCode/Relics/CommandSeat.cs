@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 
@@ -17,6 +18,11 @@ public class CommandSeat() : CustomRelicModel
 
     private bool _active;
 
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new PowerVar<StrengthPower>(2m)
+    ];
+    
     public override Task BeforeCombatStart()
     {
         if (base.Owner.Creature.CombatState != null)
@@ -25,7 +31,7 @@ public class CommandSeat() : CustomRelicModel
             foreach (Creature item in enumerable)
             {
                 // Per ally code here
-                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, 2, base.Owner.Creature, null);
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, base.DynamicVars["StrengthPower"].BaseValue, base.Owner.Creature, null);
             }
             _active = true;
         }

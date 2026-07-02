@@ -45,20 +45,24 @@ public class FilterPower : CustomPowerModel
     public async override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
-        IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer select c;
-        List<CardModel> cardsToAdd = [];
-        foreach (Creature item in enumerable)
+        if (side == CombatSide.Player)
         {
-            // Per ally code here
-            CardModel card = PileType.Discard.GetPile(item.Player).Cards.Where(Filter).FirstOrDefault();
-            if (card != null)
+            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer && c != base.Owner select c;
+            List<CardModel> cardsToAdd = [];
+            foreach (Creature item in enumerable)
             {
-                CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner.Player);
-                cardsToAdd.Add(newCard);
-                await CardCmd.Exhaust(choiceContext, card);
+                // Per ally code here
+                MainFile.Logger.Info("----> Inside Per Player loop");
+                CardModel card = PileType.Discard.GetPile(item.Player).Cards.Where(Filter).FirstOrDefault();
+                if (card != null)
+                {
+                    CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner.Player);
+                    cardsToAdd.Add(newCard);
+                    await CardPileCmd.RemoveFromCombat(card);
+                }
             }
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(cardsToAdd, PileType.Discard, creator: base.Owner.Player));
         }
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(cardsToAdd, PileType.Hand, creator: base.Owner.Player));
     }
     
     private bool Filter(CardModel card)
