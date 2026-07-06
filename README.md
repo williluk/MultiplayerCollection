@@ -4,3 +4,6 @@ Contains a collection of 35 character-specific cards and 5 relics, as well as a 
 
 ### Setup
 You can download this mod directly through the Steam Worshop, or download the release and place MultiplayerCollection.dll,  MultiplayerCollection.json, and  MultiplayerCollection.pck into your mods folder.
+
+This mod was built using BaseLib created by the brilliant Alchyr (https://github.com/Alchyr/BaseLib-StS2), and all the lovely people in the Sts2 modding discord who are smarter than me.
+ 
