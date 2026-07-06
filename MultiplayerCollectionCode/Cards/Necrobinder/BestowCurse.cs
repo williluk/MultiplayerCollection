@@ -29,7 +29,7 @@ public class BestowCurse() : CustomCardModel(1, CardType.Attack,
     {
         ArgumentNullException.ThrowIfNull(play.Target, "play.Target"); 
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+            .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         await PowerCmd.Apply<BestowCursePower>(new ThrowingPlayerChoiceContext(), play.Target, 1, base.Owner.Creature, this);
 

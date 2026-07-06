@@ -32,6 +32,7 @@ public class SmokeBomb() : CustomCardModel(1, CardType.Skill,
             return;
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
         await PowerCmd.Apply<BlurPower>(enumerable, 1, base.Owner.Creature, this);*/
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await PowerCmd.Apply<SmokeBombPower>(new ThrowingPlayerChoiceContext(), play.Target, 1, base.Owner.Creature, this);
         if (base.IsUpgraded)
         {

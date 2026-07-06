@@ -24,6 +24,7 @@ public class PowerUp() : CustomCardModel(2, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<PowerUpPower>(new ThrowingPlayerChoiceContext(),base.Owner.Creature, 1, base.Owner.Creature, null);
     }
     

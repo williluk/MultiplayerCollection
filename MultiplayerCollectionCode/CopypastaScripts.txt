@@ -1,4 +1,8 @@
-﻿
+﻿=== ANIMATIONS ===
+await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
+
+
 === ITERATE THROUGH ALL ALLIES ===
     if (base.CombatState == null)
                 return;

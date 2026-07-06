@@ -29,6 +29,7 @@ public class RoyalSupport() : CustomCardModel(0,
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
         await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(), enumerable, (decimal)ResolveStarXValue() + base.DynamicVars["xBonus"].BaseValue, base.Owner.Creature, null);
     }

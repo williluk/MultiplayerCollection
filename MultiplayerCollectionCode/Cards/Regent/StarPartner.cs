@@ -31,7 +31,7 @@ public class StarPartner() : CustomCardModel(1,
     {
         IEnumerable<CardModel> result = [];
         
-        
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         IEnumerable<CardModel> pool = ModelDb.AllCards.Where((CardModel c) => c.MultiplayerConstraint == CardMultiplayerConstraint.MultiplayerOnly);
         result = CardFactory.GetDistinctForCombat(base.Owner, pool, (int)base.DynamicVars.Cards.BaseValue, base.Owner.RunState.Rng.CombatCardGeneration);
         

@@ -29,6 +29,7 @@ public class Jealousy() : CustomCardModel(1, CardType.Skill,
             CardCmd.Enchant<Glam>(cardModel, 1);
             CardCmd.ApplyKeyword(cardModel, CardKeyword.Ethereal);
         }
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 
     protected override void OnUpgrade()

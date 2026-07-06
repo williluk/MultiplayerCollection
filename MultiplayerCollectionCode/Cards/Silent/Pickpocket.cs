@@ -35,6 +35,7 @@ public class Pickpocket() : CustomCardModel(0, CardType.Skill,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         CardModel card = PileType.Hand.GetPile(play.Target.Player).Cards.LastOrDefault();
         if (card != null)
         {

@@ -41,6 +41,7 @@ public class MinionAssist() : CustomCardModel(0,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await CreatureCmd.GainBlock(play.Target, base.DynamicVars.Block, play, false);
         await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(), play.Target, base.DynamicVars.Power<VigorPower>().BaseValue, base.Owner.Creature, this, false);
     }

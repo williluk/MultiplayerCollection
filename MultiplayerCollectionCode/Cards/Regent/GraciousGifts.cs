@@ -52,6 +52,7 @@ public class GraciousGifts() : CustomCardModel(1,
                     CardCmd.Upgrade(newCard);
                 }
                 await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, creator: base.Owner);
+                await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 
             }
         }

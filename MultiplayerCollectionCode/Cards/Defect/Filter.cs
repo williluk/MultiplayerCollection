@@ -23,8 +23,8 @@ public class Filter() : CustomCardModel(1, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<FilterPower>(new ThrowingPlayerChoiceContext(),base.Owner.Creature, base.DynamicVars["FilterPower"].BaseValue, base.Owner.Creature, null);
-
     }
 
     protected override void OnUpgrade()

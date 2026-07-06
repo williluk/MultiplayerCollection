@@ -50,7 +50,5 @@ public class Delegate() : CustomCardModel(0, CardType.Skill,
             await CardPileCmd.RemoveFromCombat(cardToMove.FirstOrDefault());
         }
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        
     }
-    
 }

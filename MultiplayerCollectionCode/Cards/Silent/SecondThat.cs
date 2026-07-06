@@ -20,6 +20,7 @@ public class SecondThat() : CustomCardModel(1, CardType.Skill,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await PowerCmd.Apply<SecondThatPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, base.DynamicVars["SecondThatPower"].BaseValue, base.Owner.Creature, this);
     }
 

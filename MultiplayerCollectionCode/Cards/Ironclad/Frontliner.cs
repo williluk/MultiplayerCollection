@@ -27,6 +27,7 @@ public class Frontliner() : CustomCardModel(1, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<FrontlinerPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature,  base.DynamicVars["FrontlinerPower"].BaseValue, base.Owner.Creature, this);
     }
 

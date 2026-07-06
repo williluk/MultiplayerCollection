@@ -34,7 +34,7 @@ public class ShieldMaster() : CustomCardModel(1,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         List<CardModel> list = PileType.Hand.GetPile(base.Owner).Cards.Where((CardModel c) => c != null && c.TargetType == TargetType.Self && c.GainsBlock).ToList();
         foreach (CardModel item in list)
         {

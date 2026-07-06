@@ -23,7 +23,7 @@ public class SpeedTraining() : CustomCardModel(1,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<SpeedTrainingPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, base.DynamicVars["SpeedTrainingPower"].BaseValue, base.Owner.Creature, this);
     }
 

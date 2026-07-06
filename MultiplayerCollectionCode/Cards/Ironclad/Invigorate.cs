@@ -24,6 +24,7 @@ public class Invigorate() : CustomCardModel(1, CardType.Skill,
         int numValidPlayers = 0;
         if (base.CombatState == null)
             return;
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
         foreach (Creature item in enumerable)
         {

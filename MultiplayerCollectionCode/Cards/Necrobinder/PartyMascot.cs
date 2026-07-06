@@ -38,7 +38,7 @@ public class PartyMascot() : CustomCardModel(1,
         {
             if (base.CombatState == null)
                 return;
-            await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+            await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
 
             IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature)
                 where c.IsAlive && c.IsPlayer

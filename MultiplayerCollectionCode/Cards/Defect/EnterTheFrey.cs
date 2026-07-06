@@ -41,6 +41,7 @@ public class EnterTheFrey() : CustomCardModel(1,
     {
         if (base.CombatState == null)
             return;
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
         foreach (Creature item in enumerable)
         {

@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -10,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(TokenCardPool))]
-public class LendEnergy() : CustomCardModel(0, CardType.Status,
+public class LendEnergy() : CustomCardModel(0, CardType.Skill,
     CardRarity.Token, TargetType.None)
 {
 
@@ -36,6 +37,7 @@ public class LendEnergy() : CustomCardModel(0, CardType.Status,
     {
         if (mySpiritOrb == null)
             return;
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         var add = IsUpgraded ? 1 : 0;
         await mySpiritOrb.BoostDamage(base.DynamicVars["boostValue"].BaseValue * (base.ResolveEnergyXValue() + add));
     }

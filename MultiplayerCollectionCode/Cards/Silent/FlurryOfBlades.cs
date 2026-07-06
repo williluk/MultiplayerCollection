@@ -40,6 +40,7 @@ public class FlurryOfBlades() : CustomCardModel(3,
         /*IEnumerable<CardModel> enumerable = PileType.Hand.GetPile(base.Owner).Cards.ToList();
         int handSize = enumerable.Count();
         await CardCmd.Discard(choiceContext, enumerable);*/
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "PowerUp", base.Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<FlurryOfBladesPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1, base.Owner.Creature, this);
     }
 
