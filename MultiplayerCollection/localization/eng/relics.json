@@ -11,7 +11,7 @@
   "MULTIPLAYERCOLLECTION-COMMAND_SEAT.description": "Allies gain [blue]{StrengthPower}[/blue] [gold]Strength[/gold] each combat until you take damage.",
   "MULTIPLAYERCOLLECTION-COMMAND_SEAT.flavor": "\"Somebody stupid get in my way!\"",
   "MULTIPLAYERCOLLECTION-COMMAND_SEAT.title": "Command Seat",
-  "MULTIPLAYERCOLLECTION-CORE_SHARDS.description": "At the start of each combat, each ally [gold]Channels[/gold] [blue]1[/blue] random [gold]Multiplayer Card[/gold].",
+  "MULTIPLAYERCOLLECTION-CORE_SHARDS.description": "At the start of each combat, each ally [gold]Channels[/gold] [blue]1[/blue] random [gold]Multiplayer Orb[/gold].",
   "MULTIPLAYERCOLLECTION-CORE_SHARDS.flavor": "Once the shard has burrowed its way into flesh, they can be quite difficult to remove.",
   "MULTIPLAYERCOLLECTION-CORE_SHARDS.title": "Core Shards"
 }

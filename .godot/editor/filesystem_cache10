@@ -5,7 +5,7 @@ MultiplayerCollection.json::JSON::-1::1783027507::0::1::::<><><>0<>0<><>::
 ::res://bin/::1778703389
 ::res://bin/ExportRelease/::1778703389
 ::res://bin/ExportRelease/net9.0/::1778703389
-::res://bin/ExportRelease/net9.0/publish/::1783353750
+::res://bin/ExportRelease/net9.0/publish/::1783356012
 MultiplayerCollection.deps.json::JSON::-1::1782765887::0::1::::<><><>0<>0<><>::
 ::res://MultiplayerCollection/::1778703394
 mod_image.png::CompressedTexture2D::5733819960685908271::1778698650::1778703394::1::::<><><>0<>0<>ae2dbe1d600fe2d4fc230970b1018d60<>res://.godot/imported/mod_image.png-934223bb2d1439479e8071fc9861b87f.ctex::
@@ -43,14 +43,14 @@ wither_power.png::CompressedTexture2D::5375097562724176892::1774506494::17827679
 ::res://MultiplayerCollection/images/powers/big/::1778699795
 ::res://MultiplayerCollection/images/relics/::1778699779
 ::res://MultiplayerCollection/localization/::1778699942
-::res://MultiplayerCollection/localization/eng/::1783353658
+::res://MultiplayerCollection/localization/eng/::1783355993
 ancients.json::JSON::-1::1774506495::0::1::::<><><>0<>0<><>::
 cards.json::JSON::-1::1783313641::0::1::::<><><>0<>0<><>::
 card_keywords.json::JSON::-1::1783041839::0::1::::<><><>0<>0<><>::
 enchantments.json::JSON::-1::1782933395::0::1::::<><><>0<>0<><>::
-orbs.json::JSON::-1::1783353658::0::1::::<><><>0<>0<><>::
+orbs.json::JSON::-1::1783354520::0::1::::<><><>0<>0<><>::
 powers.json::JSON::-1::1783321623::0::1::::<><><>0<>0<><>::
-relics.json::JSON::-1::1783045314::0::1::::<><><>0<>0<><>::
+relics.json::JSON::-1::1783355993::0::1::::<><><>0<>0<><>::
 rest_site_ui.json::JSON::-1::1783026773::0::1::::<><><>0<>0<><>::
 static_hover_tips.json::JSON::-1::1774506495::0::1::::<><><>0<>0<><>::
 ::res://MultiplayerCollectionCode/::1783041777
@@ -59,7 +59,7 @@ ExtraKeywords.cs::CSharpScript::4117888000858614947::1783041777::0::1::::<><><>0
 MainFile.cs::CSharpScript::4014857947738411154::1782615089::0::1::::<><><>0<>0<><>::
 MultiplayerCollectionConfig.cs::CSharpScript::3217830314712167461::1779571771::0::1::::<><><>0<>0<><>::
 ::res://MultiplayerCollectionCode/Cards/::1782961219
-::res://MultiplayerCollectionCode/Cards/Defect/::1783028872
+::res://MultiplayerCollectionCode/Cards/Defect/::1783353975
 Cybernetics.cs::CSharpScript::2393934123990436610::1782957423::0::1::::<><><>0<>0<><>::
 EnterTheFrey.cs::CSharpScript::3448337193494749435::1782957737::0::1::::<><><>0<>0<><>::
 Filter.cs::CSharpScript::7423522284139072870::1782957648::0::1::::<><><>0<>0<><>::
@@ -68,7 +68,7 @@ LendEnergy.cs::CSharpScript::4425936053651987979::1782957509::0::1::::<><><>0<>0
 PowerUp.cs::CSharpScript::164720117471779783::1782930902::0::1::::<><><>0<>0<><>::
 SpiritBomb.cs::CSharpScript::4676460186750371525::1782957539::0::1::::<><><>0<>0<><>::
 Symbiosis.cs::CSharpScript::231341535696518009::1783028872::0::1::::<><><>0<>0<><>::
-VolatileReactor.cs::CSharpScript::7908846034331729800::1782957607::0::1::::<><><>0<>0<><>::
+VolatileReactor.cs::CSharpScript::7908846034331729800::1783353975::0::1::::<><><>0<>0<><>::
 ::res://MultiplayerCollectionCode/Cards/Ironclad/::1783037855
 FinalStand.cs::CSharpScript::626591293447672798::1782957727::0::1::::<><><>0<>0<><>::
 Frontliner.cs::CSharpScript::4189444586807785396::1783032340::0::1::::<><><>0<>0<><>::
