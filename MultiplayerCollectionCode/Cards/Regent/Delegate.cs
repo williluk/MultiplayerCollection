@@ -23,13 +23,8 @@ public class Delegate() : CustomCardModel(0, CardType.Skill,
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
-    {
-        HoverTipFactory.FromKeyword(CardKeyword.Exhaust)
-    };
     
-    public override int CanonicalStarCost => 3;
+    public override int CanonicalStarCost => 2;
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

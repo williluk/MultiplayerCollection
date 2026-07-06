@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
+using BaseLib.Utils;
 using MultiplayerCollection.MultiplayerCollectionCode.Extensions;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -10,9 +11,11 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using MegaCrit.Sts2.Core.Runs;
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MultiplayerCollection.MultiplayerCollectionCode.Cards.Silent;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
@@ -37,16 +40,22 @@ public class SecondThatPower : CustomPowerModel
             return ResourceLoader.Exists(path) ? path : "power.png".BigPowerImagePath();
         }
     }
+    
+    public static readonly SpireField<CardModel, bool> _isAutoPlayedBySecondThat = new(() => false);
+
         
     public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Type == CardType.Skill && cardPlay.Card.Owner.Creature != base.Owner)
+        if (cardPlay.Card.Type == CardType.Skill && cardPlay.Card.Owner.Creature != base.Owner && !_isAutoPlayedBySecondThat.Get(cardPlay.Card))
         {
-            var copy = CombatState.CreateCard(cardPlay.Card.CanonicalInstance, base.Owner.Player);
-            copy.AddKeyword(CardKeyword.Exhaust);
+            CardModel copy = cardPlay.Card.CreateClone();
+            AccessTools.Field(typeof(CardModel), "_owner").SetValue(copy, base.Owner.Player);
+            copy.AddKeyword(ExtraKeywords.Temporary);
+            copy.AddModifier(ModelDb.GetById<CardModifier>(ModelDb.GetId<TemporaryCardModifier>()));
+            _isAutoPlayedBySecondThat.Set(copy, true);
             await CardCmd.AutoPlay(context, copy, cardPlay.Card.CurrentTarget);
             await PowerCmd.Decrement(this);
         }

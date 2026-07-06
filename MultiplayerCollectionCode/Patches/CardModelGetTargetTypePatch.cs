@@ -6,21 +6,21 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode;
 
-public class CardModelGetTargetTypePatch
+public class DynamicTargetType
 {
     public static readonly SpireField<CardModel, TargetType> _dynamicTargetType = new(() => TargetType.None);
 }
 
 
 [HarmonyPatch(typeof(CardModel), "get_TargetType")]
-static class DynamicTargetTypePatch
+static class CardModelGetTargetTypePatch
 {
 
     public static void Postfix(CardModel __instance, ref TargetType __result)
     {
-        if (CardModelGetTargetTypePatch._dynamicTargetType.Get(__instance) != TargetType.None)
+        if (DynamicTargetType._dynamicTargetType.Get(__instance) != TargetType.None)
         {
-            __result = CardModelGetTargetTypePatch._dynamicTargetType.Get(__instance);
+            __result = DynamicTargetType._dynamicTargetType.Get(__instance);
         }
     }
 }

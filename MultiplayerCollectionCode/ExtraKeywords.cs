@@ -9,6 +9,8 @@ public static class ExtraKeywords
 {
     [CustomEnum, KeywordProperties(AutoKeywordPosition.After)]
     public static CardKeyword Temporary; 
+    [CustomEnum, KeywordProperties(AutoKeywordPosition.After)]
+    public static CardKeyword Stolen; 
 
     public static bool IsTemporary(this CardModel card)
     {

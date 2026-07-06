@@ -51,7 +51,7 @@ public class FlurryOfBladesPower : CustomPowerModel
             {
                 if (cardPlay.Card.TargetType == TargetType.AllEnemies)
                 {
-                    CardModelGetTargetTypePatch._dynamicTargetType.Set(c, TargetType.AllEnemies);
+                    DynamicTargetType._dynamicTargetType.Set(c, TargetType.AllEnemies);
                 }
                 await CardCmd.AutoPlay(context, c, cardPlay.Target);
             }

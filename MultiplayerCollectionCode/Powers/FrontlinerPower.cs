@@ -45,9 +45,9 @@ public class FrontlinerPower : CustomPowerModel
     
     public override Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        if (cardPlay.Target == base.Owner && cardPlay.Card.TargetType != TargetType.Self)
+        if (cardPlay.Card.Owner != base.Owner.Player && cardPlay.Target == base.Owner && cardPlay.Card.TargetType != TargetType.Self)
         {
-            PowerCmd.Apply<StrengthPower>(context, base.Owner, 1, base.Owner, null);
+            PowerCmd.Apply<StrengthPower>(context, base.Owner, base.Amount, base.Owner, null);
         }
         return Task.CompletedTask;
     }

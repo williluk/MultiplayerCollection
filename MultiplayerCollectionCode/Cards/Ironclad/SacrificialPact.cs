@@ -37,7 +37,7 @@ public class SacrificialPact() : CustomCardModel(1,
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         if (base.CombatState == null)
             return;
-        IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer select c;
+        IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c != base.Owner.Creature && c.IsPlayer select c;
         foreach (Creature item in enumerable)
         {
             if (item.Player != null)

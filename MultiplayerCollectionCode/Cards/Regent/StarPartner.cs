@@ -31,11 +31,10 @@ public class StarPartner() : CustomCardModel(1,
     {
         IEnumerable<CardModel> result = [];
         
-        for (int i = 0; i < base.DynamicVars.Cards.BaseValue; i++)
-        {
-            IEnumerable<CardModel> pool = ModelDb.AllCards.Where((CardModel c) => c.MultiplayerConstraint == CardMultiplayerConstraint.MultiplayerOnly);
-            result = CardFactory.GetDistinctForCombat(base.Owner, pool, 2, base.Owner.RunState.Rng.CombatCardGeneration);
-        }
+        
+        IEnumerable<CardModel> pool = ModelDb.AllCards.Where((CardModel c) => c.MultiplayerConstraint == CardMultiplayerConstraint.MultiplayerOnly);
+        result = CardFactory.GetDistinctForCombat(base.Owner, pool, (int)base.DynamicVars.Cards.BaseValue, base.Owner.RunState.Rng.CombatCardGeneration);
+        
         await CardPileCmd.AddGeneratedCardsToCombat(result, PileType.Hand, creator: base.Owner);
     }
 

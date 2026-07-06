@@ -51,7 +51,8 @@ public class PickpocketPower : CustomPowerModel
         MainFile.Logger.Info($"------> HeldCard is {HeldCard}");
         if (cardPlay.Card == WatchCard && HeldCard != null)
         {
-            await CardPileCmd.AddGeneratedCardToCombat(HeldCard, PileType.Hand, creator: null);
+            await CardPileCmd.Add(HeldCard, PileType.Hand);
+            //await CardPileCmd.AddGeneratedCardToCombat(HeldCard, PileType.Hand, creator: null);
             await PowerCmd.Remove(this);
         }
     }
@@ -61,7 +62,8 @@ public class PickpocketPower : CustomPowerModel
         MainFile.Logger.Info($"------> HeldCard is {HeldCard}");
         if (card == WatchCard && HeldCard != null)
         {
-            await CardPileCmd.AddGeneratedCardToCombat(HeldCard, PileType.Hand, creator: null);
+            await CardPileCmd.Add(HeldCard, PileType.Hand);
+            //await CardPileCmd.AddGeneratedCardToCombat(HeldCard, PileType.Hand, creator: null);
             await PowerCmd.Remove(this);
         }
     }

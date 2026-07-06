@@ -12,10 +12,12 @@ using MegaCrit.Sts2.Core.Runs;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
+  
 public class BestowCursePower : CustomPowerModel
 {
     //Loads from MutiplayerCollection/images/powers/your_power.png
@@ -40,25 +42,47 @@ public class BestowCursePower : CustomPowerModel
     public override PowerType Type => PowerType.Debuff;
     
     public override PowerStackType StackType => PowerStackType.Counter;
-    
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+
+    public override bool TryModifyPowerAmountReceived(PowerModel canonicalPower, Creature target, decimal amount, Creature? _, out decimal modifiedAmount)
     {
-        HoverTipFactory.FromPower<DoomPower>()
-    };
-    
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props,
-        Creature? dealer, CardModel? cardSource)
-    {
-        if (target == base.Owner && cardSource != null)
+        if (target != base.Owner)
         {
-            await PowerCmd.Apply<DoomPower>(choiceContext, base.Owner, base.Amount, dealer, null);
+            modifiedAmount = amount;
+            return false;
         }
+        if (canonicalPower.GetTypeForAmount(amount) != PowerType.Debuff)
+        {
+            modifiedAmount = amount;
+            return false;
+        }
+        if (!canonicalPower.IsVisible)
+        {
+            modifiedAmount = amount;
+            return false;
+        }
+        modifiedAmount = amount * 2;
+        return true;
     }
 
-    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier,
+        CardModel? cardSource)
     {
-        PowerCmd.Remove(this);
-        return Task.CompletedTask;
+        if (power == this)
+        {
+            if (applier != null)
+            {
+                // This debuff WAS applied by a card
+            }
+            else
+            {
+                // This debuff WAS NOT applied by a card
+            }
+        }
+        return Task.CompletedTask;   
     }
 
+    public override async Task AfterModifyingPowerAmountReceived(PowerModel power)
+    {
+        await PowerCmd.Decrement(this);
+    }
 }

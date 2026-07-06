@@ -50,7 +50,7 @@ public class PowerUpPower : CustomPowerModel
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
         {
-            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyAlly);
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyAlly);
         }
         return Task.CompletedTask;
     }
@@ -59,7 +59,7 @@ public class PowerUpPower : CustomPowerModel
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.Type == CardType.Power)
         {
-            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyAlly);
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyAlly);
         }
         return Task.CompletedTask;
     }
@@ -68,7 +68,7 @@ public class PowerUpPower : CustomPowerModel
     {
         if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card.Type == CardType.Power)
         {
-            if (CardModelGetTargetTypePatch._dynamicTargetType.Get(cardPlay.Card) == TargetType.AnyAlly)
+            if (DynamicTargetType._dynamicTargetType.Get(cardPlay.Card) == TargetType.AnyAlly)
             {
                 CardModel newCard = base.CombatState.CreateCard(cardPlay.Card.CanonicalInstance, cardPlay.Target.Player);
                 await CardCmd.AutoPlay(choiceContext, newCard, cardPlay.Target);

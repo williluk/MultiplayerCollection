@@ -27,12 +27,12 @@ public class Frontliner() : CustomCardModel(1, CardType.Power,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<FrontlinerPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<FrontlinerPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature,  base.DynamicVars["FrontlinerPower"].BaseValue, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {   
-        base.DynamicVars["PartyMascotPower"].UpgradeValueBy(1m);
+        base.DynamicVars["FrontlinerPower"].UpgradeValueBy(1m);
 
     }
 }

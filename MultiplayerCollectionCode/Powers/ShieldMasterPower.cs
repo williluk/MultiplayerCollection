@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using BaseLib.Utils;
 using Godot;
 using MegaCrit.Sts2.Core.Assets;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -63,18 +64,17 @@ public class ShieldMasterPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
     
-    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[3]
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[2]
     {
         new BlockVar(0, ValueProp.Move), 
-        new DynamicVar("blockBoost", 25m),
-        new DynamicVar("totalBoost", base.Amount * base.DynamicVars["blockBoost"].BaseValue),
+        new DynamicVar("blockBoost", 50m),
     };
     
     public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {
-            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyPlayer);
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyPlayer);
         }
         return Task.CompletedTask;
     }
@@ -83,7 +83,7 @@ public class ShieldMasterPower : CustomPowerModel
     {
         if (card.Owner == base.Owner.Player && card.TargetType == TargetType.Self && card.GainsBlock)
         {
-            CardModelGetTargetTypePatch._dynamicTargetType.Set(card, TargetType.AnyPlayer);
+            DynamicTargetType._dynamicTargetType.Set(card, TargetType.AnyPlayer);
         }
         return Task.CompletedTask;
     }
@@ -93,7 +93,7 @@ public class ShieldMasterPower : CustomPowerModel
     {
         if (cardSource == null || cardPlay == null || cardPlay.Target == null)
             return 1m;
-        if (CardModelGetTargetTypePatch._dynamicTargetType.Get(cardPlay.Card) != TargetType.AnyAlly)
+        if (DynamicTargetType._dynamicTargetType.Get(cardPlay.Card) != TargetType.AnyPlayer)
             return 1m;
         if (!cardPlay.Target.IsPlayer)
             return 1m;
@@ -102,6 +102,7 @@ public class ShieldMasterPower : CustomPowerModel
             base.DynamicVars.Block.BaseValue = block * (1m + (base.DynamicVars["blockBoost"].BaseValue * base.Amount / 100m));
             CreatureCmd.GainBlock(cardPlay.Target, base.DynamicVars.Block, cardPlay);
             base.DynamicVars.Block.BaseValue = 0; 
+            CombatManager.Instance.History.BlockGained(base.Owner.CombatState, base.Owner, 1, props, cardPlay);
             return 0m;
         }
         return 1m;

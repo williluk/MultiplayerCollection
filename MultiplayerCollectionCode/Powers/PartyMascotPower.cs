@@ -40,7 +40,7 @@ public class PartyMascotPower : CustomPowerModel
         }
     }
         
-    public override PowerType Type => PowerType.Buff; 
+    public override PowerType Type => PowerType.Debuff; 
     public override PowerStackType StackType => PowerStackType.Counter;
         
     // CODE GOES HERE
@@ -55,7 +55,7 @@ public class PartyMascotPower : CustomPowerModel
                 select c;
             foreach (Creature item in enumerable)
             {
-                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, base.Amount, base.Owner, null);
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, -base.Amount, base.Owner, null);
             }
             await PowerCmd.Remove(this);
         }

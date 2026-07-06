@@ -1,6 +1,7 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using BaseLib.Utils;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
@@ -37,23 +38,19 @@ public class Pickpocket() : CustomCardModel(0, CardType.Skill,
         CardModel card = PileType.Hand.GetPile(play.Target.Player).Cards.LastOrDefault();
         if (card != null)
         {
-            CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner);
-            newCard.AddModifier(ModelDb.GetById<CardModifier>(ModelDb.GetId<TemporaryCardModifier>()));
+            CardModel newCard = card.CreateClone();
+            AccessTools.Field(typeof(CardModel), "_owner").SetValue(newCard, base.Owner);
             if (IsUpgraded)
             {
                 CardCmd.Upgrade(newCard);
                 CardCmd.Upgrade(card);
             }
-
+            PickpocketedCardModifier mod = (PickpocketedCardModifier)ModelDb.GetById<CardModifier>(ModelDb.GetId<PickpocketedCardModifier>());
+            mod.originalOwner = play.Target.Player;
+            newCard.AddModifier(mod);
+            newCard.AddKeyword(ExtraKeywords.Stolen);
             await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, creator: base.Owner);
-            PickpocketPower? power = await PowerCmd.Apply<PickpocketPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1, base.Owner.Creature, this);
-            if (power != null)
-            {
-                power.HeldCard = card;
-                power.WatchCard = newCard;
-            }
-
-            CardPileCmd.RemoveFromCombat(card);
+            await CardPileCmd.RemoveFromCombat(card);
         }
     }
     

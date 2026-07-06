@@ -33,7 +33,7 @@ public class Symbiosis() : CustomCardModel(2, CardType.Skill,
         CardPlay play)
     {
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        if (CardModelGetTargetTypePatch._dynamicTargetType.Get(this) == TargetType.AnyAlly)
+        if (DynamicTargetType._dynamicTargetType.Get(this) == TargetType.AnyAlly)
             await OrbCmd.Channel<BioOrb>(choiceContext, play.Target.Player);
         else
             await OrbCmd.Channel<BioOrb>(choiceContext, base.Owner);
@@ -41,6 +41,6 @@ public class Symbiosis() : CustomCardModel(2, CardType.Skill,
      
     protected override void OnUpgrade()
     {
-        CardModelGetTargetTypePatch._dynamicTargetType.Set(this, TargetType.AnyAlly);
+        DynamicTargetType._dynamicTargetType.Set(this, TargetType.AnyAlly);
     }
 }

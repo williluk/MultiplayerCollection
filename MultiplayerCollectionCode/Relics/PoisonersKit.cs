@@ -23,7 +23,7 @@ public class PoisonersKit() : CustomRelicModel
 
     public override bool IsAllowed(IRunState runState)
     {
-        return RelicModel.IsBeforeAct3TreasureChest(runState);
+        return RelicModel.IsBeforeAct3TreasureChest(runState) && runState.Players.Count > 1;
     }
     
     public override bool TryModifyRestSiteOptions(Player player, ICollection<RestSiteOption> options)

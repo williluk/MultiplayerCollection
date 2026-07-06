@@ -43,11 +43,10 @@ public class RedTearstonePower : CustomPowerModel
     public override PowerType Type => PowerType.Buff; 
     public override PowerStackType StackType => PowerStackType.Counter;
         
-    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[3]
+    protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[2]
     {
         new BlockVar(0, ValueProp.Move), 
-        new DynamicVar("dmgBoost", 0.25m),
-        new DynamicVar("totalBoost", base.Amount * base.DynamicVars["dmgBoost"].BaseValue),
+        new DynamicVar("dmgBoost", 25m)
     };
     // CODE GOES HERE
     
@@ -67,7 +66,16 @@ public class RedTearstonePower : CustomPowerModel
         }
         //GD.Print("----> Good");
 
-        return 1.25m;
+        return 1 + (base.DynamicVars["dmgBoost"].BaseValue / 100);
+    }
+
+    public override Task AfterCurrentHpChanged(Creature creature, decimal delta)
+    {
+        if (creature == base.Owner && delta > 0 && creature.CurrentHp > creature.MaxHp * 0.25m)
+        {
+            PowerCmd.Remove(this);
+        }
+        return Task.CompletedTask;
     }
 }
 

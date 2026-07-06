@@ -36,10 +36,6 @@ public class VolatileReactor() : CustomCardModel(0, CardType.Skill,
         HoverTipFactory.FromCard<Burn>()
     };
     
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new CardKeyword[1]
-    {
-        CardKeyword.Exhaust
-    };
 
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

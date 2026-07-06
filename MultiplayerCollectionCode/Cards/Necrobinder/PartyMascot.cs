@@ -45,12 +45,12 @@ public class PartyMascot() : CustomCardModel(1,
                 select c;
             foreach (Creature item in enumerable)
             {
-                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, base.DynamicVars["PartyMascotPower"].BaseValue,
+                await PowerCmd.Apply<StrengthPower>(choiceContext, item, base.DynamicVars["PartyMascotPower"].BaseValue,
                     base.Owner.Creature, this);
                 
             }
             // also hit self
-            await PowerCmd.Apply<PartyMascotPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, -base.DynamicVars["PartyMascotPower"].BaseValue,  base.Owner.Creature, this);
+            await PowerCmd.Apply<PartyMascotPower>(choiceContext, base.Owner.Creature, base.DynamicVars["PartyMascotPower"].BaseValue,  base.Owner.Creature, this);
             //await PowerCmd.Apply<StrengthPower>(base.Owner.Creature, base.DynamicVars["PartyMascotPower"].BaseValue, base.Owner.Creature, this);
             //await PowerCmd.Apply<PartyMascotPower>(base.Owner.Creature, -base.DynamicVars["PartyMascotPower"].BaseValue, base.Owner.Creature, this);
         }

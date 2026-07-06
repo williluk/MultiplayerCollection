@@ -25,9 +25,8 @@ public class AidThem() : CustomCardModel(2, CardType.Skill,
     };
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[2]
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
     {
-        HoverTipFactory.Static(StaticHoverTip.Transform),
         HoverTipFactory.FromCard<MinionAssist>()
     };
     

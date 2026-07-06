@@ -1,5 +1,5 @@
 {
-  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.description": "Allies with less than [blue]{HpThreshold}%[/blue] HP deal [blue]{DamageBoostValue}%[/blue] additional damage.",
+  "MULTIPLAYERCOLLECTION-RED_TEARSTONE.description": "Players with less than [blue]{HpThreshold}%[/blue] HP deal [blue]{DamageBoostValue}%[/blue] additional damage.",
   "MULTIPLAYERCOLLECTION-RED_TEARSTONE.flavor": "This rare gem has the uncanny ability to sense imminent death.",
   "MULTIPLAYERCOLLECTION-RED_TEARSTONE.title": "Red Tearstone",
   "MULTIPLAYERCOLLECTION-MARTIAL_AMULET.description": "Upon pickup, add all allies' [gold]Strikes[/gold] to your [gold]Deck[/gold].",

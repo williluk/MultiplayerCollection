@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(NecrobinderCardPool))]
-public class Transfusion() : CustomCardModel(3,
+public class Transfusion() : CustomCardModel(1,
     CardType.Skill, CardRarity.Rare,
     TargetType.Self)
 {

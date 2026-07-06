@@ -67,7 +67,7 @@ public class EconomicsPower : CustomPowerModel
         if (gainer == base.Owner.Player)
         {
             Data data = GetInternalData<Data>();
-            data.starsGained += 1;
+            data.starsGained += amount;
             int triggers = (data.starsGained / base.Amount) - data.triggerCount;
             if (triggers > 0)
             {

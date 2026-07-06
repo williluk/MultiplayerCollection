@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
 using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Relics;
@@ -26,6 +27,11 @@ public class RedTearstone() : CustomRelicModel
     public override RelicRarity Rarity =>
         RelicRarity.Rare;
 
+    public override bool IsAllowed(IRunState runState)
+    {
+        return runState.Players.Count > 1;
+    }
+    
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("HpThreshold", 25m),

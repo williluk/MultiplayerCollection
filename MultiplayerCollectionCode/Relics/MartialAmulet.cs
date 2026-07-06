@@ -2,6 +2,7 @@
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -23,7 +24,10 @@ public class MartialAmulet() : CustomRelicModel
     
     public override bool HasUponPickupEffect => true;
 
-    
+    public override bool IsAllowed(IRunState runState)
+    {
+        return runState.Players.Count > 1;
+    }
 
     public override async Task AfterObtained()
     {
@@ -42,7 +46,10 @@ public class MartialAmulet() : CustomRelicModel
 
                     cardsToRemove.Add(item);
                     //CardCreationOptions options = new CardCreationOptions(new <>z__ReadOnlySingleElementList<CardPoolModel>(base.Owner.Character.CardPool), CardCreationSource.Other, CardRarityOddsType.Uniform, (CardModel c) => c.Rarity == CardRarity.Rare).WithFlags(CardCreationFlags.NoUpgradeRoll);
-                    results.Add(base.Owner.RunState.CreateCard(item.CanonicalInstance, base.Owner));
+                    CardModel newCard = base.Owner.RunState.CloneCard(item);
+		
+                    AccessTools.Field(typeof(CardModel), "_owner").SetValue(newCard, base.Owner);
+                    CardCmd.PreviewCardPileAdd(await CardPileCmd.Add(newCard, PileType.Deck));
                 }
                 //GD.Print("----> executing removal");
                 

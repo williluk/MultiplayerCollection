@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
+using MegaCrit.Sts2.Core.Runs;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Relics;
 
@@ -16,6 +17,11 @@ public class CommandSeat() : CustomRelicModel
     public override RelicRarity Rarity =>
         RelicRarity.Uncommon;
 
+    public override bool IsAllowed(IRunState runState)
+    {
+        return runState.Players.Count > 1;
+    }
+    
     private bool _active;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

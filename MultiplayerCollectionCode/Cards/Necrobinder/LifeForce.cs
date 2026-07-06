@@ -45,6 +45,6 @@ public class LifeForce() : CustomCardModel(0, CardType.Skill,
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars["HealVar"].UpgradeValueBy(1m);
+        base.DynamicVars.Heal.UpgradeValueBy(1m);
     }
 }

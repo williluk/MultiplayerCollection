@@ -5,6 +5,7 @@ using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -30,7 +31,7 @@ public sealed class BioOrb : CustomOrbModel
     public override string? CustomPassiveSfx => "event:/sfx/characters/defect/defect_lighting_passive";
     public override string? CustomEvokeSfx => "event:/sfx/characters/defect/defect_lighting_evoke";
     public override string? CustomChannelSfx => "event:/sfx/characters/defect/defect_lighting_channel";
-    
+
     public override decimal PassiveVal => 1;
     public override decimal EvokeVal => 1;
 
@@ -68,15 +69,23 @@ public sealed class BioOrb : CustomOrbModel
         if (base.CombatState == null)
             return;
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer && c.Player != base.Owner select c;
-
-        for (int i = 0; i < PassiveVal; i++)
+        if (enumerable.Count() > 0)
         {
-            Creature? targ = enumerable.TakeRandom(1, base.Owner.RunState.Rng.CombatTargets).FirstOrDefault();
-            if (targ != null)
-                await OrbCmd.Channel<BioOrb>(choiceContext, targ.Player);
+            for (int i = 0; i < PassiveVal; i++)
+            {
+                Creature? targ = enumerable.TakeRandom(1, base.Owner.RunState.Rng.CombatTargets).FirstOrDefault();
+                if (targ != null)
+                {
+                    BioOrb? orb = ModelDb.GetById<OrbModel>(ModelDb.GetId<BioOrb>()).ToMutable() as BioOrb;
+                    if (orb != null)
+                    {
+                        await OrbCmd.Channel(choiceContext, orb, targ.Player);
+                    }
+                }
+            }
         }
     }
-    
+
     public override async Task<IEnumerable<Creature>> Evoke(PlayerChoiceContext choiceContext)
     {
         await OrbCmd.AddSlots(base.Owner, 1);

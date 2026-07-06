@@ -38,7 +38,7 @@ public class ShieldMaster() : CustomCardModel(1,
         List<CardModel> list = PileType.Hand.GetPile(base.Owner).Cards.Where((CardModel c) => c != null && c.TargetType == TargetType.Self && c.GainsBlock).ToList();
         foreach (CardModel item in list)
         {
-            CardModelGetTargetTypePatch._dynamicTargetType.Set(item, TargetType.AnyPlayer);
+            DynamicTargetType._dynamicTargetType.Set(item, TargetType.AnyPlayer);
         }
         
         await PowerCmd.Apply<ShieldMasterPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);

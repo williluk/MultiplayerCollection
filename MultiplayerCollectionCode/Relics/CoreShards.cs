@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Orbs;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Nodes.Screens.RunHistoryScreen;
+using MegaCrit.Sts2.Core.Runs;
 
 namespace MultiplayerCollection.MultiplayerCollectionCode.Relics;
 
@@ -26,6 +27,10 @@ public class CoreShards() : CustomRelicModel
     public override RelicRarity Rarity =>
         RelicRarity.Uncommon;
     
+    public override bool IsAllowed(IRunState runState)
+    {
+        return runState.Players.Count > 1;
+    }
     
     public override async Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
