@@ -83,7 +83,7 @@ public class TradeRestSiteOption : CustomRestSiteOption
 	{
 		MainFile.Logger.Info("------> PoisonRestSiteOption.OnSelect()");
 		CardSelectorPrefs cardSelectorPrefs =
-			new CardSelectorPrefs(CardSelectorPrefs.RemoveSelectionPrompt, TradeCount) { Cancelable = true, RequireManualConfirmation = true };
+			new CardSelectorPrefs(CardSelectorPrefs.RemoveSelectionPrompt, TradeCount) { Cancelable = false, RequireManualConfirmation = true };
 		CardSelectorPrefs prefs = cardSelectorPrefs;
 		_selection = await CardSelectCmd.FromDeckGeneric(base.Owner, prefs);
 		if (!_selection.Any())

@@ -27,6 +27,8 @@ public class SpiritBomb() : CustomCardModel(1, CardType.Skill,
     };
     
     
+    
+    
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,
         CardPlay play)

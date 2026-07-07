@@ -76,8 +76,8 @@ public sealed class SpiritOrb : CustomOrbModel
             LendEnergy card = base.CombatState.CreateCard<LendEnergy>(item.Player);
             card.mySpiritOrb = this;
             card.DynamicVars["boostValue"].BaseValue = PassiveVal;
-            card.AddModifier(ModelDb.GetById<CardModifier>(ModelDb.GetId<TemporaryCardModifier>()));
-            card.AddKeyword(ExtraKeywords.Temporary);
+            CardModifier? mod = ModelDb.GetById<CardModifier>(ModelDb.GetId<TemporaryCardModifier>()).MutableClone() as CardModifier;
+            card.AddModifier(mod);
             CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, creator: base.Owner));
         }
     }

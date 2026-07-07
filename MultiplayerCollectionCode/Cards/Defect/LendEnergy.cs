@@ -22,14 +22,20 @@ public class LendEnergy() : CustomCardModel(0, CardType.Skill,
         new DynamicVar("boostValue", 10)
     };
     
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[2]
     {
-        HoverTipFactory.FromOrb<SpiritOrb>()
+        HoverTipFactory.FromOrb<SpiritOrb>(),
+        HoverTipFactory.FromKeyword(ExtraKeywords.Temporary)
     };
     
     protected override bool HasEnergyCostX => true;
 
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
+    
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new CardKeyword[1]
+    {
+        ExtraKeywords.Temporary
+    };
     
     protected override async Task OnPlay(
         PlayerChoiceContext choiceContext,

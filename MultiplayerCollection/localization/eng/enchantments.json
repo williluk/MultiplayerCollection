@@ -1,7 +1,7 @@
 ﻿{
   "MULTIPLAYERCOLLECTION-POISON_ENCHANTMENT.title": "Venom",
-  "MULTIPLAYERCOLLECTION-POISON_ENCHANTMENT.description": "Applies additional [gold]Poison[/gold] on a hit.",
-  "MULTIPLAYERCOLLECTION-POISON_ENCHANTMENT.extraCardText": "Apply 3 [gold]Poison[/gold].",
+  "MULTIPLAYERCOLLECTION-POISON_ENCHANTMENT.description": "Applies additional [gold]Poison[/gold] equal to [blue]50%[/blue] of its base damage.",
+  "MULTIPLAYERCOLLECTION-POISON_ENCHANTMENT.extraCardText": "Apply {PoisonValue:diff} [gold]Poison[/gold].",
   "MULTIPLAYERCOLLECTION-ROYAL_ARMS_ENCHANTMENT.title": "Royal Arms",
   "MULTIPLAYERCOLLECTION-ROYAL_ARMS_ENCHANTMENT.description": "Draw [blue]1[/blue] card and deal [blue]3[/blue] damage to all enemies.",
   "MULTIPLAYERCOLLECTION-ROYAL_ARMS_ENCHANTMENT.extraCardText": ""

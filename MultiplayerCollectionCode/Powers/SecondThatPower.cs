@@ -54,7 +54,8 @@ public class SecondThatPower : CustomPowerModel
             CardModel copy = cardPlay.Card.CreateClone();
             AccessTools.Field(typeof(CardModel), "_owner").SetValue(copy, base.Owner.Player);
             copy.AddKeyword(ExtraKeywords.Temporary);
-            copy.AddModifier(ModelDb.GetById<CardModifier>(ModelDb.GetId<TemporaryCardModifier>()));
+            CardModifier? mod = ModelDb.GetById<CardModifier>(ModelDb.GetId<TemporaryCardModifier>()).MutableClone() as CardModifier;
+            copy.AddModifier(mod);
             _isAutoPlayedBySecondThat.Set(copy, true);
             await CardCmd.AutoPlay(context, copy, cardPlay.Card.CurrentTarget);
             await PowerCmd.Decrement(this);

@@ -13,7 +13,14 @@ public class TemporaryCardModifier : CardModifier
     public async Task RemoveMe()
     {
         MainFile.Logger.Info("-----> Attempting temporary card removal");
-        await CardPileCmd.RemoveFromCombat(base.Owner);
+        if (Owner != null)
+        {
+            if (Owner.Pile != null)
+            {
+                if (Owner.Pile.IsCombatPile)
+                    await CardPileCmd.RemoveFromCombat(Owner);
+            }
+        }
     }
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side,
