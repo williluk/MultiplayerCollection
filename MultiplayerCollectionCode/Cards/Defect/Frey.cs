@@ -47,7 +47,7 @@ public class Frey() : CustomCardModel(0, CardType.Attack,
         CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target, "play.Target");
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(play.Target)
+        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this, play).Targeting(play.Target)
             .WithHitVfxNode((Creature t) => (Node2D?)(object)NScratchVfx.Create(t, goingRight: true))
             .Execute(choiceContext);
         IEnumerable<Frey> freyCards = [];

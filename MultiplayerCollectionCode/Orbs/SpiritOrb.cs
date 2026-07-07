@@ -66,9 +66,10 @@ public sealed class SpiritOrb : CustomOrbModel
     
     public override async Task Passive(PlayerChoiceContext choiceContext, Creature? target)
     {
-        Trigger(); // fires the orb pulse animation - always call this first
+        // fires the orb pulse animation - always call this first
         if (base.CombatState == null)
             return;
+        ActivatePassive(); 
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer && c.Player != base.Owner select c;
         foreach (Creature item in enumerable)
         {

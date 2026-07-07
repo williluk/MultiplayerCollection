@@ -49,8 +49,8 @@ public class RedTearstonePower : CustomPowerModel
         new DynamicVar("dmgBoost", 25m)
     };
     // CODE GOES HERE
-    
-    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
         //GD.Print("----> Modifying damage value");
         if (!props.IsPoweredAttack())

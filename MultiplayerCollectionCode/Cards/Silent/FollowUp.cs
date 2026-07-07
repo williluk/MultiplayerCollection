@@ -39,7 +39,7 @@ public class FollowUp() : CustomCardModel(1, CardType.Attack,
 
             foreach (var t in targets)
             {
-                await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(t)
+                await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this, play).Targeting(t)
                     .WithHitFx("vfx/vfx_attack_slash")
                     .Execute(choiceContext);
             }
