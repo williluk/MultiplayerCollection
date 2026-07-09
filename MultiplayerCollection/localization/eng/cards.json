@@ -54,6 +54,7 @@
   "MULTIPLAYERCOLLECTION-ECONOMICS.description": "Whenever you gain {StarReq:diff()} {singleStarIcon}, all allies gain {Energy:energyIcons()}.",
   "MULTIPLAYERCOLLECTION-ECONOMICS.title": "Economics",
   "MULTIPLAYERCOLLECTION-AID_THEM.description": "Transform any number of cards in your hand into [gold]{IfUpgraded:show:Minion Assist+|Minion Assist}[/gold].",
+  "MULTIPLAYERCOLLECTION-AID_THEM.selectionScreenPrompt": "Choose cards to [gold]Transform[/gold].",
   "MULTIPLAYERCOLLECTION-AID_THEM.title": "AID THEM!!!",
   "MULTIPLAYERCOLLECTION-MINION_ASSIST.description": "Target player gains {Block:diff()} block and {VigorPower:diff()} vigor.",
   "MULTIPLAYERCOLLECTION-MINION_ASSIST.title": "Minion Assist",
@@ -73,7 +74,7 @@
   "MULTIPLAYERCOLLECTION-ENTER_THE_FREY.title": "Enter The Frey",
   "MULTIPLAYERCOLLECTION-FREY.description": "Deal {Damage:diff()} damage.\nIncrease this damage by {Increase:diff()} whenever ANYONE plays a [gold]Frey[/gold].",
   "MULTIPLAYERCOLLECTION-FREY.title": "Frey",
-  "MULTIPLAYERCOLLECTION-SYMBIOSIS.description": "{IfUpgraded:show:Target ally [gold]Channels[/gold]|Channel} 1 [gold]Bio[/gold].",
+  "MULTIPLAYERCOLLECTION-SYMBIOSIS.description": "Channel 1 [gold]Bio[/gold].",
   "MULTIPLAYERCOLLECTION-SYMBIOSIS.title": "Symbiosis",
   "MULTIPLAYERCOLLECTION-LEND_ENERGY.description": "Increase the damage of the [gold]Spirit[/gold] by {boostValue:diff()} {IfUpgraded:show:X+1|X} times.",
   "MULTIPLAYERCOLLECTION-LEND_ENERGY.title": "Lend Energy"

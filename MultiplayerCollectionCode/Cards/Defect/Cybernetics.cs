@@ -15,7 +15,7 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(DefectCardPool))]
 public class Cybernetics() : CustomCardModel(2,
-    CardType.Skill, CardRarity.Uncommon,
+    CardType.Skill, CardRarity.Common,
     TargetType.AnyAlly)
 {
     public override OrbEvokeType OrbEvokeType => OrbEvokeType.Front;
