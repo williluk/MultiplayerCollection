@@ -12,7 +12,7 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(NecrobinderCardPool))]
 public class UndeadArmy() : CustomCardModel(2, CardType.Power,
-    CardRarity.Common, TargetType.Self)
+    CardRarity.Uncommon, TargetType.Self)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     

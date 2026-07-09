@@ -41,6 +41,6 @@ public class Symbiosis() : CustomCardModel(2, CardType.Skill,
      
     protected override void OnUpgrade()
     {
-        DynamicTargetType._dynamicTargetType.Set(this, TargetType.AnyAlly);
+        base.EnergyCost.UpgradeBy(-1);
     }
 }

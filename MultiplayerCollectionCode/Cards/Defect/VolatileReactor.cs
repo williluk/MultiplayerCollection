@@ -41,7 +41,7 @@ public class VolatileReactor() : CustomCardModel(0, CardType.Skill,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        var added = IsUpgraded ? 0 : -1;
+        var added = IsUpgraded ? 1 : 0;
         if (base.CombatState == null)
             return;
         IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner.Creature) where c.IsAlive && c.IsPlayer && c != base.Owner.Creature select c;

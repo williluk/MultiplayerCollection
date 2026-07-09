@@ -14,7 +14,7 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(DefectCardPool))]
 public class Filter() : CustomCardModel(1, CardType.Power,
-    CardRarity.Common, TargetType.Self)
+    CardRarity.Uncommon, TargetType.Self)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] {new PowerVar<FilterPower>(2m)};

@@ -47,19 +47,26 @@ public class FilterPower : CustomPowerModel
     {
         if (side == CombatSide.Player)
         {
-            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer && c != base.Owner select c;
+            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer select c;
             List<CardModel> cardsToAdd = [];
             foreach (Creature item in enumerable)
             {
                 // Per ally code here
-                MainFile.Logger.Info("----> Inside Per Player loop");
-                CardModel card = PileType.Discard.GetPile(item.Player).Cards.Where(Filter).FirstOrDefault();
-                if (card != null)
+                IEnumerable<CardModel> cards = PileType.Discard.GetPile(item.Player).Cards.Where(Filter);
+                int max = (cards.Count() > base.Amount) ? base.Amount : cards.Count();
+                for (int i = 0; i < max - 1; i++)
                 {
-                    CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner.Player);
-                    cardsToAdd.Add(newCard);
-                    await CardPileCmd.RemoveFromCombat(card);
+                    CardModel card = cards.ElementAt(i);
+                    MainFile.Logger.Info($"----> i = {i}");
+
+                    if (card != null)
+                    {
+                        CardModel newCard = base.CombatState.CreateCard(card.CanonicalInstance, base.Owner.Player);
+                        cardsToAdd.Add(newCard);
+                        await CardPileCmd.RemoveFromCombat(card);
+                    }
                 }
+                
             }
             CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(cardsToAdd, PileType.Discard, creator: base.Owner.Player));
         }

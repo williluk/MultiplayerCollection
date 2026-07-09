@@ -46,10 +46,20 @@ public class Pickpocket() : CustomCardModel(0, CardType.Skill,
                 CardCmd.Upgrade(newCard);
                 CardCmd.Upgrade(card);
             }
-            PickpocketedCardModifier mod = (PickpocketedCardModifier)ModelDb.GetById<CardModifier>(ModelDb.GetId<PickpocketedCardModifier>());
-            mod.originalOwner = play.Target.Player;
-            newCard.AddModifier(mod);
-            newCard.AddKeyword(ExtraKeywords.Stolen);
+
+            IEnumerable<CardModifier> pickPocketMods = CardModifier.Modifiers(newCard).Where(m => m is PickpocketedCardModifier);
+            foreach (var m in pickPocketMods)
+            {
+                CardModifier.RemoveModifier(newCard, m);
+            }
+            IEnumerable<CardModifier> tempMods = CardModifier.Modifiers(newCard).Where(m => m is TemporaryCardModifier);
+            if (!tempMods.Any())
+            {
+                PickpocketedCardModifier mod = (PickpocketedCardModifier)ModelDb.GetById<CardModifier>(ModelDb.GetId<PickpocketedCardModifier>());
+                mod.originalOwner = play.Target.Player;
+                newCard.AddModifier(mod);
+                newCard.AddKeyword(ExtraKeywords.Stolen);
+            }
             await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, creator: base.Owner);
             await CardPileCmd.RemoveFromCombat(card);
         }
