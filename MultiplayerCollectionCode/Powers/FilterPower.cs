@@ -47,7 +47,7 @@ public class FilterPower : CustomPowerModel
     {
         if (side == CombatSide.Player)
         {
-            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer && c != base.Owner select c;
+            IEnumerable<Creature> enumerable = from c in base.CombatState.GetTeammatesOf(base.Owner) where c.IsAlive && c.IsPlayer select c;
             List<CardModel> cardsToAdd = [];
             foreach (Creature item in enumerable)
             {

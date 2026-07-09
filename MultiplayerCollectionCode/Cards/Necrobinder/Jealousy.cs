@@ -13,7 +13,7 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(NecrobinderCardPool))]
 public class Jealousy() : CustomCardModel(1, CardType.Skill,
-    CardRarity.Uncommon, TargetType.AnyAlly)
+    CardRarity.Common, TargetType.AnyAlly)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 

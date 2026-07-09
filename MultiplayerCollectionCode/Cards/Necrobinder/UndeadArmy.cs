@@ -11,8 +11,8 @@ using MultiplayerCollection.MultiplayerCollectionCode.Powers;
 namespace MultiplayerCollection.MultiplayerCollectionCode.Cards;
 
 [Pool(typeof(NecrobinderCardPool))]
-public class UndeadArmy() : CustomCardModel(2, CardType.Power,
-    CardRarity.Common, TargetType.Self)
+public class UndeadArmy() : CustomCardModel(1, CardType.Power,
+    CardRarity.Uncommon, TargetType.Self)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
     

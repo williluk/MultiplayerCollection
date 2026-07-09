@@ -35,7 +35,7 @@ public class AidThem() : CustomCardModel(2, CardType.Skill,
         CardPlay play)
     {
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        List<CardModel> list = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.TransformSelectionPrompt, 0, 999999999), context: choiceContext, player: base.Owner, filter: null, source: this)).ToList();
+        List<CardModel> list = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(base.SelectionScreenPrompt, 0, 999999999), context: choiceContext, player: base.Owner, filter: null, source: this)).ToList();
         foreach (CardModel item in list)
         {
             CardModel cardModel = base.CombatState.CreateCard<MinionAssist>(base.Owner);
