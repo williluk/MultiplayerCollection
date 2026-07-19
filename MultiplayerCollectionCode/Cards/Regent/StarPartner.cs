@@ -32,10 +32,13 @@ public class StarPartner() : CustomCardModel(1,
         IEnumerable<CardModel> result = [];
         
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        IEnumerable<CardModel> pool = ModelDb.AllCards.Where((CardModel c) => c.MultiplayerConstraint == CardMultiplayerConstraint.MultiplayerOnly && c.Rarity != CardRarity.Token);
-        result = CardFactory.GetDistinctForCombat(base.Owner, pool, (int)base.DynamicVars.Cards.BaseValue, base.Owner.RunState.Rng.CombatCardGeneration);
+        IEnumerable<CardModel> cardModels = CardFactory.GetDistinctForCombat(base.Owner,
+            from c in base.Owner.Character.CardPool.GetUnlockedCards(base.Owner.UnlockState,
+                CardMultiplayerConstraint.MultiplayerOnly)
+            where c.Rarity != CardRarity.Token
+            select c, (int)base.DynamicVars.Cards.BaseValue, base.Owner.RunState.Rng.CombatCardGeneration);
         
-        await CardPileCmd.AddGeneratedCardsToCombat(result, PileType.Hand, creator: base.Owner);
+        await CardPileCmd.AddGeneratedCardsToCombat(cardModels, PileType.Hand, creator: base.Owner);
     }
 
     protected override void OnUpgrade()
