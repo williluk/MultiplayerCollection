@@ -29,7 +29,11 @@ public class PoisonEnchantment : CustomEnchantmentModel
 
     public override void RecalculateValues()
     {
-        base.DynamicVars["PoisonValue"].BaseValue = base.Card.DynamicVars.Damage.BaseValue * 0.5m;
+        if (base.Card != null)
+        {
+            base.DynamicVars["PoisonValue"].BaseValue = base.Card.DynamicVars.Damage.BaseValue * 0.5m;
+        }
+        else base.DynamicVars["PoisonValue"].BaseValue = 1;
     }
 
     public override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay? cardPlay)

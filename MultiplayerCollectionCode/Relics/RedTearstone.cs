@@ -41,7 +41,7 @@ public class RedTearstone() : CustomRelicModel
     
     public override async Task AfterCurrentHpChanged(Creature creature, decimal delta)
     {
-        if (creature.CurrentHp <= creature.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100))
+        if (creature.IsPlayer && creature.CurrentHp <= creature.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100))
         {
             await PowerCmd.Apply<RedTearstonePower>(new ThrowingPlayerChoiceContext(),creature, 1m + (base.DynamicVars["DamageBoostValue"].BaseValue / 100), creature, null);
         } 

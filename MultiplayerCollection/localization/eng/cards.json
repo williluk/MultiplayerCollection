@@ -1,7 +1,7 @@
 {
   "MULTIPLAYERCOLLECTION-UNDEAD_ARMY.description": "Whenever you [gold]Summon[/gold], all allies [gold]Summon[/gold] 1.",
   "MULTIPLAYERCOLLECTION-UNDEAD_ARMY.title": "Undead Army",
-  "MULTIPLAYERCOLLECTION-JEALOUSY.description": "Choose a card in target ally's [gold]Draw Pile[/gold] to [gold]Enchant[/gold] with [purple]Glam[/purple]. It gains [gold]Ethereal[/gold].",
+  "MULTIPLAYERCOLLECTION-JEALOUSY.description": "Choose a non-Power card in target ally's [gold]Draw Pile[/gold] to [gold]Enchant[/gold] with [purple]Glam[/purple]. It gains [gold]Ethereal[/gold].",
   "MULTIPLAYERCOLLECTION-JEALOUSY.title": "Jealousy",
   "MULTIPLAYERCOLLECTION-TRANSFUSION.description": "You cannot draw additional cards this turn.\nTransform all [gold]Souls[/gold] in your [gold]Hand[/gold] into [gold]{IfUpgraded:show:Life Forces+|Life Forces}[/gold].",
   "MULTIPLAYERCOLLECTION-TRANSFUSION.title": "Transfusion",
