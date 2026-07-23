@@ -53,7 +53,7 @@ public class CommandSeat() : CustomRelicModel
             foreach (Creature item in enumerable)
             {
                 // Per ally code here
-                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, -2, base.Owner.Creature, null);
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), item, -base.DynamicVars["StrengthPower"].BaseValue, base.Owner.Creature, null);
             }
             _active = false;
         }

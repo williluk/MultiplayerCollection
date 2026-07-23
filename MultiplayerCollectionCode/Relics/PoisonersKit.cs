@@ -5,7 +5,9 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Entities.RestSite;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Nodes.Relics;
@@ -25,6 +27,8 @@ public class PoisonersKit() : CustomRelicModel
     {
         return RelicModel.IsBeforeAct3TreasureChest(runState) && runState.Players.Count > 1;
     }
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => HoverTipFactory.FromEnchantment<PoisonEnchantment>();
     
     public override bool TryModifyRestSiteOptions(Player player, ICollection<RestSiteOption> options)
     {

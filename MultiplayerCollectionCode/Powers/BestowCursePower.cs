@@ -50,6 +50,11 @@ public class BestowCursePower : CustomPowerModel
             modifiedAmount = amount;
             return false;
         }
+        if (canonicalPower is ITemporaryPower)
+        {
+            modifiedAmount = amount;
+            return false;
+        }
         if (canonicalPower.GetTypeForAmount(amount) != PowerType.Debuff)
         {
             modifiedAmount = amount;
@@ -62,23 +67,6 @@ public class BestowCursePower : CustomPowerModel
         }
         modifiedAmount = amount * 2;
         return true;
-    }
-
-    public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier,
-        CardModel? cardSource)
-    {
-        if (power == this)
-        {
-            if (applier != null)
-            {
-                // This debuff WAS applied by a card
-            }
-            else
-            {
-                // This debuff WAS NOT applied by a card
-            }
-        }
-        return Task.CompletedTask;   
     }
 
     public override async Task AfterModifyingPowerAmountReceived(PowerModel power)
