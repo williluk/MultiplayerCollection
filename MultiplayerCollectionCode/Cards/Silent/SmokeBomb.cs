@@ -17,6 +17,8 @@ namespace MultiplayerCollection.MultiplayerCollectionCode.Cards.Silent;
 public class SmokeBomb() : CustomCardModel(1, CardType.Skill,
     CardRarity.Uncommon, TargetType.AnyPlayer)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[1] { new BlockVar(5, ValueProp.Move) };
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[1]
