@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
@@ -41,7 +42,7 @@ public class RedTearstone() : CustomRelicModel
     
     public override async Task AfterCurrentHpChanged(Creature creature, decimal delta)
     {
-        if (creature.IsPlayer && creature.CurrentHp <= creature.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100))
+        if (creature.IsPlayer && creature.HasPower<RedTearstonePower>() && creature.CurrentHp <= creature.MaxHp * (base.DynamicVars["HpThreshold"].BaseValue / 100))
         {
             await PowerCmd.Apply<RedTearstonePower>(new ThrowingPlayerChoiceContext(),creature, 1m + (base.DynamicVars["DamageBoostValue"].BaseValue / 100), creature, null);
         } 

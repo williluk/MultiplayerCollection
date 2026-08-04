@@ -53,10 +53,13 @@ public class FilterPower : CustomPowerModel
             {
                 // Per ally code here
                 IEnumerable<CardModel> cards = PileType.Discard.GetPile(item.Player).Cards.Where(Filter);
+               
                 int max = (cards.Count() > base.Amount) ? base.Amount : cards.Count();
                 for (int i = 0; i < max - 1; i++)
                 {
-                    CardModel card = cards.ElementAt(i);
+                    CardModel card = null;
+                    if (i > 0 && i < cards.Count()) 
+                        card = cards.ElementAt(i);
                     MainFile.Logger.Info($"----> i = {i}");
 
                     if (card != null)
@@ -66,7 +69,6 @@ public class FilterPower : CustomPowerModel
                         await CardPileCmd.RemoveFromCombat(card);
                     }
                 }
-                
             }
             CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(cardsToAdd, PileType.Discard, creator: base.Owner.Player));
         }

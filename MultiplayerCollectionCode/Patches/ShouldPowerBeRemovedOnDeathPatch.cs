@@ -19,6 +19,6 @@ internal static class PowerModelShouldPowerBeRemovedAfterOwnerDeathPatch
         {
             __result = false;
         }
-        return false;
+        return true;
     }
 }
